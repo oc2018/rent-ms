@@ -1,0 +1,1 @@
+ALTER TABLE "users" ADD COLUMN "kra_pin" text NOT NULL;
