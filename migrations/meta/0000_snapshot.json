@@ -1,9 +1,94 @@
 {
-  "id": "2d6ccb94-1c95-495e-b51b-28f320ad960c",
+  "id": "e47c6f50-a336-4218-9641-913c1112dc59",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
+    "public.properties": {
+      "name": "properties",
+      "schema": "",
+      "columns": {
+        "property_id": {
+          "name": "property_id",
+          "type": "varchar(255)",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "property_size": {
+          "name": "property_size",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "property_location": {
+          "name": "property_location",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "property_image": {
+          "name": "property_image",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "property_owner": {
+          "name": "property_owner",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "rent": {
+          "name": "rent",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "deposit": {
+          "name": "deposit",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "property_status": {
+          "name": "property_status",
+          "type": "property_status",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "properties_property_owner_users_id_fk": {
+          "name": "properties_property_owner_users_id_fk",
+          "tableFrom": "properties",
+          "tableTo": "users",
+          "columnsFrom": [
+            "property_owner"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
     "public.users": {
       "name": "users",
       "schema": "",
@@ -47,6 +132,12 @@
         },
         "id_card": {
           "name": "id_card",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "kra_pin": {
+          "name": "kra_pin",
           "type": "text",
           "primaryKey": false,
           "notNull": true
@@ -107,6 +198,14 @@
     }
   },
   "enums": {
+    "public.property_status": {
+      "name": "property_status",
+      "schema": "public",
+      "values": [
+        "VACANT",
+        "OCCUPIED"
+      ]
+    },
     "public.role": {
       "name": "role",
       "schema": "public",

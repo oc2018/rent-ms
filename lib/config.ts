@@ -15,6 +15,13 @@ const config = {
       qstashToken: process.env.UPSTASH_QSTASH_TOKEN!,
     },
     resendToken: process.env.RESEND_TOKEN!,
+    appwrite: {
+      endpoint: process.env.APPWRITE_ENDPOINT!,
+      projectId: process.env.APPWRITE_PROJECT_ID!,
+      apiKey: process.env.APPWRITE_API_KEY!,
+      databaseId: process.env.APPWRITE_DATABASE_ID!,
+      propertiesCollectionId: process.env.APPWRITE_PROPERTIES_COLLECTION_ID!,
+    },
   },
 };
 

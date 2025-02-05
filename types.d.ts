@@ -7,3 +7,25 @@ interface AuthCredentials {
   phoneNumber: string;
   kraPin: string;
 }
+
+interface PropertyParams {
+  propertyId: string;
+  propertySize: string;
+  propertyLocation: string;
+  propertyImage: string;
+  // propertyOwner: string;
+  rent: number;
+  deposit: number;
+  status: "VACANT" | "OCCUPIED";
+}
+
+interface Property {
+  propertyId: string;
+  propertySize: string;
+  propertyLocation: string;
+  propertyImage: string;
+  propertyOwner: string;
+  rent: number;
+  deposit: number;
+  status: "VACANT" | "OCCUPIED";
+}

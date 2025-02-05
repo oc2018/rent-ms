@@ -16,6 +16,11 @@ export const STATUS_ENUM = pgEnum("status", [
 ]);
 export const ROLE_ENUM = pgEnum("role", ["ADMIN", "USER"]);
 
+export const PROPERTY_STATUS_ENUM = pgEnum("property_status", [
+  "VACANT",
+  "OCCUPIED",
+]);
+
 export const users = pgTable("users", {
   id: uuid("id").notNull().primaryKey().defaultRandom().unique(),
   fullName: varchar("full_name", { length: 255 }).notNull(),
@@ -28,6 +33,22 @@ export const users = pgTable("users", {
   status: STATUS_ENUM("status").default("PENDING"),
   role: ROLE_ENUM("role").default("USER"),
   lastActivityDate: date("last_activity_date").notNull().defaultNow(),
+  createdAt: timestamp("created_at", {
+    withTimezone: true,
+  }).defaultNow(),
+});
+
+export const properties = pgTable("properties", {
+  propertyId: varchar("property_id", { length: 255 }).notNull().primaryKey(),
+  propertySize: varchar("property_size", { length: 255 }).notNull(),
+  propertyLocation: varchar("property_location", { length: 255 }).notNull(),
+  propertyImage: text("property_image").notNull(),
+  propertyOwner: uuid("property_owner")
+    .references(() => users.id)
+    .notNull(),
+  rent: integer("rent").notNull().default(0),
+  deposit: integer("deposit").notNull().default(0),
+  status: PROPERTY_STATUS_ENUM("property_status"),
   createdAt: timestamp("created_at", {
     withTimezone: true,
   }).defaultNow(),
