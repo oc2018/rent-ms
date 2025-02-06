@@ -36,6 +36,10 @@
     @apply w-full min-h-14 border-none text-base font-bold placeholder:font-normal text-white placeholder:text-light-100 focus-visible:ring-0 focus-visible:shadow-none bg-dark-300 !important;
   }
 
+  .admin-form-input {
+    @apply w-full min-h-14 border-none text-base font-bold placeholder:font-normal text-dark-300 placeholder:text-dark-100 focus-visible:ring-0 focus-visible:shadow-none bg-light-100 !important;
+  }
+
   /* Book Card */
   .book-title {
     @apply mt-2 line-clamp-1 text-base font-semibold text-white xs:text-xl;
@@ -246,6 +250,10 @@
   .auth-form {
     @apply my-auto flex h-full min-h-screen flex-1 items-center bg-pattern bg-cover bg-top bg-dark-100 px-5 py-10;
   }
+
+  /* .auth-signup-form {
+    @apply my-auto flex h-full min-h-screen flex-1 items-center bg-pattern bg-cover bg-top bg-light-100 px-5 py-10;
+  } */
 
   .auth-box {
     @apply gradient-vertical mx-auto flex max-w-xl flex-col gap-6 rounded-lg p-10;

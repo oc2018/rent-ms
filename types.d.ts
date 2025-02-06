@@ -28,4 +28,5 @@ interface Property {
   rent: number;
   deposit: number;
   status: "VACANT" | "OCCUPIED";
+  createdAt: Date | null;
 }

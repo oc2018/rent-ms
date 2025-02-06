@@ -19,7 +19,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import Link from "next/link";
 import { FIELD_NAMES, FIELD_TYPES } from "@/lib/constants";
 import { useRouter } from "next/navigation";
 import { toast } from "@/hooks/use-toast";
@@ -69,9 +68,9 @@ const AuthForm = <T extends FieldValues>({
   return (
     <div className="flex flex-col gap-4">
       <h1 className="text-2xl font-semibold text-primary">
-        {isSignIn ? "Wecome back" : "Create an Account"}
+        {isSignIn ? "Wecome back" : "Save New Tenant or Landlord Details"}
       </h1>
-      <p className="text-light-100">
+      <p className={`${!isSignIn && "text-dark-300"}text-light-100`}>
         {isSignIn
           ? "View your rent account status"
           : "Please complete all fields and upload a valid ID"}
@@ -104,11 +103,14 @@ const AuthForm = <T extends FieldValues>({
                     ) : (
                       <Input
                         // required
+                        autoComplete="on"
                         type={
                           FIELD_TYPES[field.name as keyof typeof FIELD_TYPES]
                         }
                         {...field}
-                        className="form-input"
+                        className={`${
+                          !isSignIn && "admin-form-input"
+                        } form-input`}
                       />
                     )}
                   </FormControl>
@@ -124,16 +126,6 @@ const AuthForm = <T extends FieldValues>({
           </Button>
         </form>
       </Form>
-      <p className="text-center text-base font-medium">
-        {isSignIn ? "New to Ontime Rentals " : "Already have an account? "}
-        {/* <br /> */}
-        <Link
-          className={`text-primary`}
-          href={isSignIn ? "/sign-up" : "/sign-in"}
-        >
-          {isSignIn ? "Create an account" : "Sign In"}
-        </Link>
-      </p>
     </div>
   );
 };

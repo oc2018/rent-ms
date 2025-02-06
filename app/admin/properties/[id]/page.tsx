@@ -1,7 +1,11 @@
-import React from "react";
+import React from 'react'
 
 const PropertyDetails = () => {
-  return <div>Pd</div>;
-};
+  return (
+    <div>
+      <div>details</div>
+    </div>
+  )
+}
 
-export default PropertyDetails;
+export default PropertyDetails
