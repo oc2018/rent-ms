@@ -25,3 +25,10 @@ export const propertiesSchema = z.object({
   deposit: z.coerce.number().min(3),
   status: z.enum(["VACANT", "OCCUPIED"]),
 });
+
+export const paymentSchema = z.object({
+  tenantId: z.string().min(5),
+  propertyId: z.string().min(5),
+  rentPaid: z.coerce.number().optional(),
+  depositPaid: z.coerce.number().optional(),
+});

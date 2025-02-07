@@ -1,6 +1,6 @@
 import React from "react";
-import { DataTable } from "./PropertiesDataTable";
-import { propertiesColumns } from "./propertiesColumns";
+import { DataTable } from "./Tables/DataTable";
+import { propertiesColumns } from "./Tables/propertiesColumns";
 
 interface Props {
   allProperties: Property[];

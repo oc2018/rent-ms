@@ -1,5 +1,5 @@
 // import { auth } from "@/auth";
-import PropertyList from "@/components/admin/Tables/PropertyList";
+import PropertyList from "@/components/admin/PropertyList";
 import { Button } from "@/components/ui/button";
 import { db } from "@/database/drizzle";
 import { properties } from "@/database/schema";

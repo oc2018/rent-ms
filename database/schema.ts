@@ -7,6 +7,8 @@ import {
   timestamp,
   uuid,
   varchar,
+  real,
+  serial,
 } from "drizzle-orm/pg-core";
 
 export const STATUS_ENUM = pgEnum("status", [
@@ -49,6 +51,22 @@ export const properties = pgTable("properties", {
   rent: integer("rent").notNull().default(0),
   deposit: integer("deposit").notNull().default(0),
   status: PROPERTY_STATUS_ENUM("property_status"),
+  createdAt: timestamp("created_at", {
+    withTimezone: true,
+  }).defaultNow(),
+});
+
+export const payments = pgTable("payments", {
+  paymentId: uuid("payment_id").primaryKey().defaultRandom(),
+  receiptNo: serial(),
+  tenantId: uuid("tenant_id")
+    .references(() => users.id)
+    .notNull(),
+  propertyId: varchar("property_id")
+    .references(() => properties.propertyId)
+    .notNull(),
+  rentPaid: real().default(0.0),
+  depositPaid: real().default(0.0),
   createdAt: timestamp("created_at", {
     withTimezone: true,
   }).defaultNow(),

@@ -35,7 +35,6 @@ const EntriesForm = ({ type }: Props) => {
       propertySize: "",
       propertyLocation: "",
       propertyImage: "",
-      // propertyOwner: "Eric Ndege",
       rent: 0,
       deposit: 0,
       status: "VACANT",
@@ -43,7 +42,6 @@ const EntriesForm = ({ type }: Props) => {
   });
 
   async function onSubmit(values: z.infer<typeof propertiesSchema>) {
-    console.log(values);
     if (type === "create") {
       const result = await createProperty(values);
 

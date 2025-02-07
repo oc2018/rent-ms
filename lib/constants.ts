@@ -34,7 +34,16 @@ export const adminSidebarLinks = [
     text: "Dashboad",
     route: "/admin",
   },
-  { icon: "/icons/admin/users.svg", text: "Tenants", route: "/admin/tenants" },
+  {
+    icon: "/icons/admin/home.svg",
+    text: "Rent Account",
+    route: "/admin/rentaccount",
+  },
+  {
+    icon: "/icons/admin/users.svg",
+    text: "Tenants",
+    route: "/admin/tenants",
+  },
   {
     icon: "/icons/admin/home.svg",
     text: "Properties",

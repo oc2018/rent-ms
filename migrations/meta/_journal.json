@@ -8,6 +8,13 @@
       "when": 1738740034197,
       "tag": "0000_cool_orphan",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1738903227339,
+      "tag": "0001_open_ego",
+      "breakpoints": true
     }
   ]
 }
