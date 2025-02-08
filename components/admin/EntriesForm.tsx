@@ -28,6 +28,7 @@ interface Props extends Partial<Property> {
 
 const EntriesForm = ({ type }: Props) => {
   const router = useRouter();
+
   const form = useForm<z.infer<typeof propertiesSchema>>({
     resolver: zodResolver(propertiesSchema),
     defaultValues: {
@@ -64,7 +65,7 @@ const EntriesForm = ({ type }: Props) => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form onSubmit={form.handleSubmit(onSubmit)}>
         <FormField
           control={form.control}
           name={"propertyId"}

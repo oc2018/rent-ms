@@ -9,6 +9,7 @@ import {
   varchar,
   real,
   serial,
+  boolean,
 } from "drizzle-orm/pg-core";
 
 export const STATUS_ENUM = pgEnum("status", [
@@ -57,7 +58,7 @@ export const properties = pgTable("properties", {
 });
 
 export const payments = pgTable("payments", {
-  paymentId: uuid("payment_id").primaryKey().defaultRandom(),
+  paymentId: uuid("payment_id").notNull().primaryKey().defaultRandom().unique(),
   receiptNo: serial(),
   tenantId: uuid("tenant_id")
     .references(() => users.id)
@@ -67,6 +68,27 @@ export const payments = pgTable("payments", {
     .notNull(),
   rentPaid: real().default(0.0),
   depositPaid: real().default(0.0),
+  createdAt: timestamp("created_at", {
+    withTimezone: true,
+  }).defaultNow(),
+});
+
+export const expenses = pgTable("expenses", {
+  expenseId: uuid("expense_id").primaryKey().defaultRandom(),
+  expenseNo: serial("expense_no"),
+  description: text("description").notNull(),
+  expenseAmount: real("expense_amount").default(0.0),
+  createdAt: timestamp("created_at", {
+    withTimezone: true,
+  }).defaultNow(),
+});
+
+export const transactions = pgTable("transactions", {
+  transactionId: uuid("transaction_id").notNull().defaultRandom().primaryKey(),
+  paymentId: uuid("tenant_id").references(() => payments.paymentId),
+  expenseId: uuid("expense_id").references(() => expenses.expenseId),
+  transactionAmount: real("transaction_amount").default(0.0),
+  isDebit: boolean("is_debit").notNull(),
   createdAt: timestamp("created_at", {
     withTimezone: true,
   }).defaultNow(),

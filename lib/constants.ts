@@ -50,6 +50,11 @@ export const adminSidebarLinks = [
     route: "/admin/properties",
   },
   {
+    icon: "/icons/admin/home.svg",
+    text: "Expenses",
+    route: "/admin/expenses",
+  },
+  {
     icon: "/icons/admin/receipt.svg",
     text: "Transactions",
     route: "/admin/transactions",

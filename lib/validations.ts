@@ -32,3 +32,8 @@ export const paymentSchema = z.object({
   rentPaid: z.coerce.number().optional(),
   depositPaid: z.coerce.number().optional(),
 });
+
+export const expenseSchema = z.object({
+  description: z.string().min(10),
+  expenseAmount: z.coerce.number().nonnegative(),
+});

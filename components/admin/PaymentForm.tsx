@@ -27,9 +27,9 @@ const PaymentForm = ({ type }: { type: "create" | "edit" }) => {
 
   const onSubmit = async (values: z.infer<typeof paymentSchema>) => {
     if (type === "create") {
-      const newPayment = await createPayment(values);
+      const result = await createPayment(values);
 
-      if (newPayment.success) {
+      if (result.success) {
         toast({
           title: "Success",
           description: "Payment saved successfully",
@@ -39,7 +39,7 @@ const PaymentForm = ({ type }: { type: "create" | "edit" }) => {
       } else {
         toast({
           title: "Error",
-          description: newPayment.message,
+          description: result.message,
           variant: "destructive",
         });
       }
@@ -47,7 +47,7 @@ const PaymentForm = ({ type }: { type: "create" | "edit" }) => {
   };
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form onSubmit={form.handleSubmit(onSubmit)}>
         <FormField
           control={form.control}
           name="tenantId"

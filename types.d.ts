@@ -50,3 +50,25 @@ interface PaymentParams {
   rentPaid?: number;
   depositPaid?: number;
 }
+interface Payment {
+  paymentId: string;
+  receiptNo: number;
+  tenantId: string;
+  propertyId: string;
+  rentPaid?: number | null;
+  depositPaid?: number | null;
+  createdAt: Date | null;
+}
+
+interface ExpenseParams {
+  description: string;
+  expenseAmount: number;
+}
+
+interface Expense {
+  expenseId: string;
+  expenseNo: number;
+  description: string;
+  expenseAmount: number | null;
+  createdAt: Date | null;
+}
