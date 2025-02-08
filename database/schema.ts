@@ -85,8 +85,9 @@ export const expenses = pgTable("expenses", {
 
 export const transactions = pgTable("transactions", {
   transactionId: uuid("transaction_id").notNull().defaultRandom().primaryKey(),
-  paymentId: uuid("tenant_id").references(() => payments.paymentId),
+  paymentId: uuid("payment_id").references(() => payments.paymentId),
   expenseId: uuid("expense_id").references(() => expenses.expenseId),
+  description: text("description").notNull(),
   transactionAmount: real("transaction_amount").default(0.0),
   isDebit: boolean("is_debit").notNull(),
   createdAt: timestamp("created_at", {

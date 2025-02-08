@@ -9,7 +9,6 @@ export const createPayment = async (data: PaymentParams) => {
 
   if (!session) throw new Error("User not authenticated");
 
-  console.log(data);
   try {
     const newPayment = await db.insert(payments).values(data).returning();
 
@@ -22,7 +21,7 @@ export const createPayment = async (data: PaymentParams) => {
 
     return {
       success: false,
-      message: `Payment failed, please try again later.`,
+      message: `Payment failed, please try again later.` as string,
     };
   }
 };

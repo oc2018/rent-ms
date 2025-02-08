@@ -72,3 +72,21 @@ interface Expense {
   expenseAmount: number | null;
   createdAt: Date | null;
 }
+
+interface TxnProps {
+  description: string;
+  isDebit: boolean;
+  transactionAmount: number;
+  receiptNo?: number;
+  expenseNo?: number;
+}
+
+interface Txn {
+  transactionId: string;
+  description: string;
+  paymentId: string | null;
+  expenseId: string | null;
+  transactionAmount: number | null;
+  isDebit: boolean;
+  createdAt: Date | null;
+}

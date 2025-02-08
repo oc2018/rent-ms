@@ -121,7 +121,6 @@ const FileUpload = ({
       authenticator={authenticator}
     >
       <IKUpload
-        className="hidden"
         ref={ikUploadRef}
         onError={onError}
         onSuccess={onSuccess}
@@ -135,6 +134,7 @@ const FileUpload = ({
         }}
         folder={folder}
         accept={accept}
+        className="hidden"
       />
       <button
         className={cn("upload-btn", styles.button)}
@@ -157,9 +157,9 @@ const FileUpload = ({
         />
 
         <p className={cn("text-base ", styles.placeholder)}>{Placeholder}</p>
-        {/* {file && (
+        {file && (
           <p className={cn("upload-filename", styles.text)}>{file?.filePath}</p>
-        )} */}
+        )}
       </button>
 
       {progress > 0 && progress !== 100 && (

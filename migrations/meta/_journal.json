@@ -5,29 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1738740034197,
-      "tag": "0000_cool_orphan",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1738903227339,
-      "tag": "0001_open_ego",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1738963713578,
-      "tag": "0002_adorable_skaar",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "7",
-      "when": 1738967422997,
-      "tag": "0003_married_serpent_society",
+      "when": 1739043584861,
+      "tag": "0000_chilly_inertia",
       "breakpoints": true
     }
   ]

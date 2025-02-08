@@ -12,6 +12,7 @@ import { Button } from "../ui/button";
 import { createExpense } from "@/lib/admin/actions/expense";
 import { toast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
+import { createTxn } from "@/lib/admin/actions/transactions";
 
 const ExpenseForm = ({ type }: { type: "create" | "edit" }) => {
   const router = useRouter();
@@ -28,12 +29,24 @@ const ExpenseForm = ({ type }: { type: "create" | "edit" }) => {
       const result = await createExpense(values);
 
       if (result.success) {
-        toast({
-          title: "success",
-          description: "Expense amount saved successfuly",
-        });
+        const { description, expenseAmount, expenseId } = result.data;
 
-        router.push("/admin/expenses");
+        const txnData = {
+          description,
+          isDebit: true,
+          transactionAmount: expenseAmount,
+          expenseId,
+        };
+
+        const txnResult = await createTxn(txnData);
+
+        if (txnResult.success) {
+          toast({
+            title: "success",
+            description: "Expense amount saved successfuly",
+          });
+          router.push("/admin/expenses");
+        }
       } else {
         toast({
           title: "Error",
