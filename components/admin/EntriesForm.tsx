@@ -4,23 +4,17 @@ import React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { z } from "zod";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import { Form, FormControl } from "@/components/ui/form";
 import { useRouter } from "next/navigation";
 import { toast } from "@/hooks/use-toast";
 import { useForm } from "react-hook-form";
 import { propertiesSchema } from "@/lib/validations";
-import { Button } from "../ui/button";
 import FileUpload from "../FileUpload";
 import { createProperty } from "@/lib/admin/actions/proprties";
-// import { createProperty } from "@/lib/actions/appwrite.actions";
+import CustomFormField from "../CustomFormField";
+import { FormFieldType, propertySizes } from "@/lib/constants";
+import { SelectItem } from "../ui/select";
+import SubmitButton from "../SubmitButton";
 
 interface Props extends Partial<Property> {
   type?: "create" | "update";
@@ -52,7 +46,7 @@ const EntriesForm = ({ type }: Props) => {
           description: "Property details saved successfully",
         });
 
-        router.push(`/admin/properties/${result.data.id}`);
+        router.push(`/admin/properties/${result.data.propertyId}`);
       } else {
         toast({
           title: "Error",
@@ -65,137 +59,81 @@ const EntriesForm = ({ type }: Props) => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
-        <FormField
-          control={form.control}
-          name={"propertyId"}
-          render={({ field }) => (
-            <FormItem className="flex flex-col">
-              <FormLabel className="text-baase font-normal text-dark-500">
-                Property Number
-              </FormLabel>
-              <FormControl>
-                <Input
-                  className="book-form_input"
-                  {...field}
-                  placeholder="Property Number"
-                  required
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name={"propertySize"}
-          render={({ field }) => (
-            <FormItem className="flex flex-col">
-              <FormLabel className="text-base font-normal text-dark-500">
-                Property Size
-              </FormLabel>
-              <FormControl>
-                <Input
-                  className="book-form_input"
-                  {...field}
-                  placeholder="Property Size"
-                  required
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name={"propertyLocation"}
-          render={({ field }) => (
-            <FormItem className="flex flex-col">
-              <FormLabel className="text-baase font-normal text-dark-500">
-                Property Location
-              </FormLabel>
-              <FormControl>
-                <Input
-                  className="book-form_input"
-                  {...field}
-                  placeholder="Property Location"
-                  required
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name={"rent"}
-          render={({ field }) => (
-            <FormItem className="flex flex-col">
-              <FormLabel className="text-baase font-normal text-dark-500">
-                Rent Charnged
-              </FormLabel>
-              <FormControl>
-                <Input
-                  className="book-form_input"
-                  {...field}
-                  placeholder="Rent Charged"
-                  required
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name={"deposit"}
-          render={({ field }) => (
-            <FormItem className="flex flex-col">
-              <FormLabel className="text-baase font-normal text-dark-500">
-                Deposit Paid
-              </FormLabel>
-              <FormControl>
-                <Input
-                  className="book-form_input"
-                  {...field}
-                  placeholder="Deposit Paid"
-                  required
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name={"propertyImage"}
-          render={({ field }) => (
-            <FormItem className="flex flex-col">
-              <FormLabel className="text-baase font-normal text-dark-500">
-                Picture
-              </FormLabel>
-              <FormControl>
-                <FileUpload
-                  type="image"
-                  accept="image/*"
-                  Placeholder="Upload a picture"
-                  folder="property-pics"
-                  variant="light"
-                  onFileChange={field.onChange}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-6">
+        <div className="flex flex-col md:flex-row w-full gap-3 mb-3">
+          <div className="flex flex-col w-full justify-between gap-2">
+            <CustomFormField
+              fieldType={FormFieldType.INPUT}
+              control={form.control}
+              name="propertyId"
+              label="Property Number"
+              placeholder="oc/945-taita-nkuene/001"
+            />
 
-        <Button
-          type="submit"
-          className="book-form_btn text-white"
-          disabled={form.formState.isSubmitting}
+            <CustomFormField
+              fieldType={FormFieldType.SELECT}
+              control={form.control}
+              name="propertySize"
+              label="Property Size"
+              placeholder="Studio"
+            >
+              {propertySizes.map((size, i) => (
+                <SelectItem key={i + 1} value={size}>
+                  {size}
+                </SelectItem>
+              ))}
+            </CustomFormField>
+            <CustomFormField
+              fieldType={FormFieldType.INPUT}
+              control={form.control}
+              name="rent"
+              label="RentCharged"
+              placeholder="KSH"
+            />
+            <CustomFormField
+              fieldType={FormFieldType.INPUT}
+              control={form.control}
+              name="deposit"
+              label="Deposit Charged"
+              placeholder="KSH"
+            />
+          </div>
+          <div className="flex flex-col w-full justify-between gap-2">
+            <CustomFormField
+              fieldType={FormFieldType.INPUT}
+              control={form.control}
+              name="propertyLocation"
+              label="Property Location"
+              placeholder="Nkubu/945-taita-nkuene"
+            />
+
+            <CustomFormField
+              fieldType={FormFieldType.SKELETON}
+              control={form.control}
+              name="propertyImage"
+              label="A picture of the property"
+              renderSkeleton={(field) => (
+                <FormControl>
+                  <FileUpload
+                    type="image"
+                    accept="image/*"
+                    Placeholder="Upload a picture"
+                    folder="property-pics"
+                    variant="light"
+                    onFileChange={field.onChange}
+                  />
+                </FormControl>
+              )}
+            />
+          </div>
+        </div>
+
+        <SubmitButton
+          className="book-form_btn text-white mt-3"
+          isSubmitting={form.formState.isSubmitting}
         >
-          {form.formState.isSubmitting ? "Saving..." : "Save"}
-        </Button>
+          Save Details
+        </SubmitButton>
       </form>
     </Form>
   );

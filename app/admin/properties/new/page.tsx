@@ -10,7 +10,7 @@ const page = () => {
       <Button asChild className="back-btn">
         <Link href="/admin/properties">Go Back</Link>
       </Button>
-      <section className="w-full max-w-2xl">
+      <section className="w-full">
         <EntriesForm type="create" />
       </section>
     </>

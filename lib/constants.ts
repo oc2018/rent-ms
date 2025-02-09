@@ -61,3 +61,24 @@ export const adminSidebarLinks = [
   },
   // { icon: "/icons/admin/user.svg", text: "LandLord", route: "/admin/landlord" },
 ];
+
+export enum FormFieldType {
+  INPUT = "input",
+  CHECKBOX = "checkbox",
+  TEXTAREA = "textarea",
+  PHONE_INPUT = "phoneInput",
+  DATE_PICKER = "datePicker",
+  SELECT = "select",
+  SKELETON = "skeleton",
+  PASSWORD = "password",
+  EMAIL = "email",
+}
+
+export const propertySizes = [
+  "Studio",
+  "Single Room",
+  "Two Bedrooms",
+  "Three Bedrooms",
+  "Four Bedrooms",
+  "Five Bedrooms",
+];

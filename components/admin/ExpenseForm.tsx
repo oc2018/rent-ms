@@ -5,14 +5,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Form, FormControl, FormField, FormItem, FormLabel } from "../ui/form";
-import { Input } from "../ui/input";
-import { Textarea } from "../ui/textarea";
-import { Button } from "../ui/button";
+import { Form } from "../ui/form";
 import { createExpense } from "@/lib/admin/actions/expense";
 import { toast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 import { createTxn } from "@/lib/admin/actions/transactions";
+import CustomFormField from "../CustomFormField";
+import { FormFieldType } from "@/lib/constants";
+import SubmitButton from "../SubmitButton";
 
 const ExpenseForm = ({ type }: { type: "create" | "edit" }) => {
   const router = useRouter();
@@ -59,31 +59,27 @@ const ExpenseForm = ({ type }: { type: "create" | "edit" }) => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
-        <FormField
+        <CustomFormField
+          fieldType={FormFieldType.TEXTAREA}
           name="description"
           control={form.control}
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Description</FormLabel>
-              <FormControl>
-                <Textarea rows={3} placeholder="Description" {...field} />
-              </FormControl>
-            </FormItem>
-          )}
+          label="Description"
+          placeholder="Enter a short description of the expenditure..."
         />
-        <FormField
+        <CustomFormField
+          fieldType={FormFieldType.INPUT}
           name="expenseAmount"
           control={form.control}
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Amount</FormLabel>
-              <FormControl>
-                <Input placeholder="Amount" {...field} />
-              </FormControl>
-            </FormItem>
-          )}
+          label="Amount"
+          placeholder="Ksh"
         />
-        <Button type="submit"> Save </Button>
+        <SubmitButton
+          className="book-form_btn text-white mt-3 "
+          isSubmitting={form.formState.isSubmitting}
+        >
+          {" "}
+          Save{" "}
+        </SubmitButton>
       </form>
     </Form>
   );

@@ -5,14 +5,22 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Form, FormControl, FormField, FormItem, FormLabel } from "../ui/form";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
+import { Form } from "../ui/form";
 import { createPayment } from "@/lib/admin/actions/payments";
 import { useRouter } from "next/navigation";
 import { toast } from "@/hooks/use-toast";
+import CustomFormField from "../CustomFormField";
+import { FormFieldType } from "@/lib/constants";
+import { SelectItem } from "../ui/select";
+import SubmitButton from "../SubmitButton";
 
-const PaymentForm = ({ type }: { type: "create" | "edit" }) => {
+interface PaymentProps {
+  type: "create" | "edit";
+  tenants: User[];
+  allProperties: Property[];
+}
+
+const PaymentForm = ({ type, tenants, allProperties }: PaymentProps) => {
   const router = useRouter();
 
   const form = useForm<z.infer<typeof paymentSchema>>({
@@ -47,57 +55,63 @@ const PaymentForm = ({ type }: { type: "create" | "edit" }) => {
   };
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
-        <FormField
-          control={form.control}
-          name="tenantId"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Tenant</FormLabel>
-              <FormControl>
-                <Input placeholder="tenant " {...field} />
-              </FormControl>
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="propertyId"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Property</FormLabel>
-              <FormControl>
-                <Input placeholder="property " {...field} />
-              </FormControl>
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="rentPaid"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Rent Paid</FormLabel>
-              <FormControl>
-                <Input placeholder="Ksh " {...field} />
-              </FormControl>
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="depositPaid"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Deposit Paid</FormLabel>
-              <FormControl>
-                <Input placeholder="Ksh " {...field} />
-              </FormControl>
-            </FormItem>
-          )}
-        />
+      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-6">
+        <div className="flex flex-col w-full gap-3">
+          <div className="flex flex-col w-full justify-between md:flex-row gap-3">
+            <CustomFormField
+              fieldType={FormFieldType.SELECT}
+              control={form.control}
+              name="tenantId"
+              label="Select the Tenant"
+              placeholder="Tenant"
+            >
+              {tenants.map((tenant, i) => (
+                <SelectItem key={i + 1} value={tenant.id}>
+                  <p>{tenant?.fullName}</p>
+                </SelectItem>
+              ))}
+            </CustomFormField>
+            <CustomFormField
+              fieldType={FormFieldType.SELECT}
+              control={form.control}
+              name="propertyId"
+              label="House Number"
+              placeholder="House Number"
+            >
+              {allProperties.map((property) => (
+                <SelectItem
+                  key={property.propertyId}
+                  value={property?.propertyId}
+                >
+                  <p>{property?.propertyId}</p>
+                </SelectItem>
+              ))}
+            </CustomFormField>
+          </div>
+          <div className="flex flex-col w-full justify-between md:flex-row gap-3">
+            <CustomFormField
+              fieldType={FormFieldType.INPUT}
+              control={form.control}
+              name="rentPaid"
+              label="Rent Paid"
+              placeholder="Ksh"
+            />
+            <CustomFormField
+              fieldType={FormFieldType.INPUT}
+              control={form.control}
+              name="depositPaid"
+              label="Deposit Paid"
+              placeholder="Ksh"
+            />
+          </div>
+        </div>
 
-        <Button type="submit">Save</Button>
+        <SubmitButton
+          className="book-form_btn text-white mt-3"
+          isSubmitting={form.formState.isSubmitting}
+        >
+          Save
+        </SubmitButton>
       </form>
     </Form>
   );

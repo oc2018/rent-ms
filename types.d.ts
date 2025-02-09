@@ -14,7 +14,7 @@ interface User {
   email: string;
   phoneNumber: string;
   idNumber: number;
-  password: string;
+  // password: string;
   idCard: string;
   kraPin: string;
   status: "PENDING" | "APPROVED" | "REJECTED" | null;
@@ -89,4 +89,10 @@ interface Txn {
   transactionAmount: number | null;
   isDebit: boolean;
   createdAt: Date | null;
+}
+
+interface SubmitButtonProps {
+  isSubmitting: boolean;
+  className?: string;
+  children?: React.ReactNode;
 }
