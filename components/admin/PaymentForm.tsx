@@ -13,6 +13,7 @@ import CustomFormField from "../CustomFormField";
 import { FormFieldType } from "@/lib/constants";
 import { SelectItem } from "../ui/select";
 import SubmitButton from "../SubmitButton";
+import { createTxn } from "@/lib/admin/actions/transactions";
 
 interface PaymentProps {
   type: "create" | "edit";
@@ -37,13 +38,30 @@ const PaymentForm = ({ type, tenants, allProperties }: PaymentProps) => {
     if (type === "create") {
       const result = await createPayment(values);
 
-      if (result.success) {
-        toast({
-          title: "Success",
-          description: "Payment saved successfully",
-        });
+      console.log(result);
 
-        router.push("/admin/rentaccount");
+      if (result.success) {
+        const { paymentId, propertyId, rentPaid, depositPaid } = result.data;
+
+        const txnData = {
+          description: `Payment of ${
+            rentPaid ? "Rent" : "Deposit"
+          } for house Number ${propertyId}.`,
+          transactionAmount: rentPaid ? rentPaid : depositPaid,
+          isDebit: false,
+          paymentId,
+        };
+
+        const txnResult = await createTxn(txnData);
+
+        if (txnResult.success) {
+          toast({
+            title: "Success",
+            description: "Payment saved successfully",
+          });
+
+          router.push("/admin/rentaccount");
+        }
       } else {
         toast({
           title: "Error",
