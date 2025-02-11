@@ -9,10 +9,10 @@ import React from "react";
 const page = async () => {
   //eslint-disable-next-line
   const { password, ...safeUsers } = users;
-  const tenants = await db
+  const tenants = (await db
     .select(safeUsers)
     .from(users)
-    .where(eq(users.role, "USER"));
+    .where(eq(users.role, "USER"))) as unknown as User[];
 
   return (
     <section className="w-full rounded-2xl bg-white p-7">

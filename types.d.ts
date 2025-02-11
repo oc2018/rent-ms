@@ -96,3 +96,13 @@ interface SubmitButtonProps {
   className?: string;
   children?: React.ReactNode;
 }
+
+interface PaymentListProps {
+  paymentId: string;
+  receiptNo: number;
+  propertyId: string;
+  rentPaid: number | null | undefined;
+  depositPaid: number | null | undefined;
+  tenant: string;
+  createdAt: Date | null;
+}

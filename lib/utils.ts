@@ -15,3 +15,17 @@ export const getInitials = (name: string): string =>
     .join("")
     .toUpperCase()
     .slice(0, 2);
+
+export const dateFormatter = (today: Date) => {
+  today = new Date(today);
+  return `${today.getDate()}-${today.getMonth() + 1}-${today.getFullYear()}`;
+};
+
+export const currencyFormatter = (amount: number) => {
+  const ksh = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "KES",
+  });
+
+  return ksh.format(amount).replace("KES", "");
+};
