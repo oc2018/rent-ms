@@ -6,13 +6,25 @@ import { eq } from "drizzle-orm";
 import Link from "next/link";
 import React from "react";
 
+type SafeUser = Omit<User, "password">;
+
 const page = async () => {
-  //eslint-disable-next-line
-  const { password, ...safeUsers } = users;
   const tenants = (await db
-    .select(safeUsers)
+    .select({
+      id: users.id,
+      fullName: users.fullName,
+      email: users.email,
+      phoneNumber: users.phoneNumber,
+      idNumber: users.idNumber,
+      idCard: users.idCard,
+      kraPin: users.kraPin,
+      status: users.status,
+      role: users.role,
+      lastActivityDate: users.lastActivityDate,
+      createdAt: users.createdAt,
+    })
     .from(users)
-    .where(eq(users.role, "USER"))) as unknown as User[];
+    .where(eq(users.role, "USER"))) as SafeUser[];
 
   return (
     <section className="w-full rounded-2xl bg-white p-7">
