@@ -42,7 +42,8 @@ export const users = pgTable("users", {
 });
 
 export const properties = pgTable("properties", {
-  propertyId: varchar("property_id", { length: 255 }).notNull().primaryKey(),
+  propertyId: uuid("property_id").notNull().primaryKey().defaultRandom(),
+  propertyNo: varchar("property_no", { length: 255 }),
   propertySize: varchar("property_size", { length: 255 }).notNull(),
   propertyLocation: varchar("property_location", { length: 255 }).notNull(),
   propertyImage: text("property_image").notNull(),
@@ -63,7 +64,7 @@ export const payments = pgTable("payments", {
   tenantId: uuid("tenant_id")
     .references(() => users.id)
     .notNull(),
-  propertyId: varchar("property_id")
+  propertyId: uuid("property_id")
     .references(() => properties.propertyId)
     .notNull(),
   rentPaid: real().default(0.0),

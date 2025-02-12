@@ -2,8 +2,8 @@
 import PropertyList from "@/components/admin/PropertyList";
 import { Button } from "@/components/ui/button";
 import { db } from "@/database/drizzle";
-import { properties } from "@/database/schema";
-import { desc } from "drizzle-orm";
+import { properties, users } from "@/database/schema";
+import { desc, eq } from "drizzle-orm";
 import Link from "next/link";
 import React from "react";
 
@@ -12,6 +12,30 @@ const page = async () => {
     .select()
     .from(properties)
     .orderBy(desc(properties.createdAt))) as Property[];
+
+  const getOwner = async (owner: string) =>
+    (await db
+      .select({ fullName: users.fullName })
+      .from(users)
+      .where(eq(users.id, owner))) as { fullName: string }[];
+
+  const propertiesData = await Promise.all(
+    allProperties.map(async (p) => {
+      const owner = await getOwner(p.propertyOwner);
+
+      return {
+        propertyId: p.propertyId,
+        createdAt: p.createdAt,
+        deposit: p.deposit,
+        rent: p.rent,
+        propertySize: p.propertySize,
+        propertyLocation: p.propertyLocation,
+        propertyImage: p.propertyImage,
+        propertyOwner: owner[0]?.fullName,
+        status: p.status,
+      };
+    })
+  );
 
   return (
     <section className="w-full rounded-2xl bg-white p-7">
@@ -24,7 +48,7 @@ const page = async () => {
         </Button>
       </div>
       <div className="mt-7 w-full overflow-hidden">
-        <PropertyList allProperties={allProperties} />
+        <PropertyList allProperties={propertiesData} />
       </div>
     </section>
   );

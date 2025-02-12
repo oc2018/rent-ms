@@ -106,3 +106,15 @@ interface PaymentListProps {
   tenant: string;
   createdAt: Date | null;
 }
+
+// interface PropertiesListProps {
+//   propertyId: string;
+//   createdAt: Date | null;
+//   deposit: number;
+//   rent: number;
+//   propertySize: string;
+//   propertyLocation: string;
+//   propertyImage: string;
+//   propertyOwner: string;
+//   status: string;
+// }

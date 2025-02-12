@@ -82,3 +82,11 @@ export const propertySizes = [
   "Four Bedrooms",
   "Five Bedrooms",
 ];
+
+export const StatusIcon = {
+  APPROVED: "/icons/tick.svg",
+  OCCUPIED: "/icons/tick.svg",
+  REJECTED: "/icons/warning.svg",
+  PENDING: "/icons/tick.svg",
+  VACANT: "/icons/tick.svg",
+};

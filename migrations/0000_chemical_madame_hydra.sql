@@ -13,7 +13,7 @@ CREATE TABLE "payments" (
 	"payment_id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"receiptNo" serial NOT NULL,
 	"tenant_id" uuid NOT NULL,
-	"property_id" varchar NOT NULL,
+	"property_id" uuid NOT NULL,
 	"rentPaid" real DEFAULT 0,
 	"depositPaid" real DEFAULT 0,
 	"created_at" timestamp with time zone DEFAULT now(),
@@ -21,7 +21,8 @@ CREATE TABLE "payments" (
 );
 --> statement-breakpoint
 CREATE TABLE "properties" (
-	"property_id" varchar(255) PRIMARY KEY NOT NULL,
+	"property_id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"property_no" varchar(255),
 	"property_size" varchar(255) NOT NULL,
 	"property_location" varchar(255) NOT NULL,
 	"property_image" text NOT NULL,

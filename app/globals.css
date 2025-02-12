@@ -293,6 +293,9 @@
   .text-14-medium {
     @apply text-[16px] font-medium;
   }
+  .text-12-semibold {
+    @apply text-[14px] font-semibold;
+  }
 }
 
 @layer base {

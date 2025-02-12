@@ -1,5 +1,5 @@
 {
-  "id": "1e4aa42d-6730-48d4-8495-525fadadad39",
+  "id": "5f8645f7-42c4-4809-a04d-508b49c78f37",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -75,7 +75,7 @@
         },
         "property_id": {
           "name": "property_id",
-          "type": "varchar",
+          "type": "uuid",
           "primaryKey": false,
           "notNull": true
         },
@@ -150,9 +150,16 @@
       "columns": {
         "property_id": {
           "name": "property_id",
-          "type": "varchar(255)",
+          "type": "uuid",
           "primaryKey": true,
-          "notNull": true
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "property_no": {
+          "name": "property_no",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
         },
         "property_size": {
           "name": "property_size",
