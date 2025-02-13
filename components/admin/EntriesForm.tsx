@@ -10,7 +10,7 @@ import { toast } from "@/hooks/use-toast";
 import { useForm } from "react-hook-form";
 import { propertiesSchema } from "@/lib/validations";
 import FileUpload from "../FileUpload";
-import { createProperty } from "@/lib/admin/actions/proprties";
+import { createProperty } from "@/lib/admin/actions/properties";
 import CustomFormField from "../CustomFormField";
 import { FormFieldType, propertySizes } from "@/lib/constants";
 import { SelectItem } from "../ui/select";
@@ -26,7 +26,7 @@ const EntriesForm = ({ type }: Props) => {
   const form = useForm<z.infer<typeof propertiesSchema>>({
     resolver: zodResolver(propertiesSchema),
     defaultValues: {
-      propertyId: "",
+      propertyNo: "",
       propertySize: "",
       propertyLocation: "",
       propertyImage: "",
@@ -65,7 +65,7 @@ const EntriesForm = ({ type }: Props) => {
             <CustomFormField
               fieldType={FormFieldType.INPUT}
               control={form.control}
-              name="propertyId"
+              name="propertyNo"
               label="Property Number"
               placeholder="oc/945-taita-nkuene/001"
             />
@@ -111,13 +111,13 @@ const EntriesForm = ({ type }: Props) => {
               fieldType={FormFieldType.SKELETON}
               control={form.control}
               name="propertyImage"
-              label="A picture of the property"
+              label="Upload a picture of the property"
               renderSkeleton={(field) => (
                 <FormControl>
                   <FileUpload
                     type="image"
                     accept="image/*"
-                    Placeholder="Upload a picture"
+                    placeholder="Upload a picture"
                     folder="property-pics"
                     variant="light"
                     onFileChange={field.onChange}

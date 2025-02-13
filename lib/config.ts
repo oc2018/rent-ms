@@ -1,5 +1,6 @@
 const config = {
   env: {
+    gogleMapsApi: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!,
     apiEndpoint: process.env.NEXT_PUBLIC_API_ENDPOINT!,
     apiProdEndpoint: process.env.NEXT_PUBLIC_PROD_API_ENDPOINT!,
     imagekit: {

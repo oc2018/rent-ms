@@ -17,13 +17,13 @@ interface User {
   // password: string;
   idCard: string;
   kraPin: string;
-  status: "PENDING" | "APPROVED" | "REJECTED" | null;
+  status: "PENDING" | "APPROVED" | "REJECTED";
   lastActivityDate: string;
   createdAt: Date | null;
 }
 
 interface PropertyParams {
-  propertyId: string;
+  propertyNo: string;
   propertySize: string;
   propertyLocation: string;
   propertyImage: string;
@@ -34,6 +34,7 @@ interface PropertyParams {
 
 interface Property {
   propertyId: string;
+  propertyNo: string;
   propertySize: string;
   propertyLocation: string;
   propertyImage: string;
@@ -92,6 +93,7 @@ interface Txn {
 }
 
 interface SubmitButtonProps {
+  onClick: () => null;
   isSubmitting: boolean;
   className?: string;
   children?: React.ReactNode;
@@ -105,6 +107,17 @@ interface PaymentListProps {
   depositPaid: number | null | undefined;
   tenant: string;
   createdAt: Date | null;
+}
+
+interface PropertyCardProps {
+  propertyNo: string;
+  propertySize: string;
+  propertyImage: string;
+  propertyLocation: string;
+  propertyOwner: string;
+  rent: number;
+  deposit: number;
+  status: "VACANT" | "OCCUPIED";
 }
 
 // interface PropertiesListProps {

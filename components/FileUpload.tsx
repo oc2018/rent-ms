@@ -40,7 +40,7 @@ const authenticator = async () => {
 interface Props {
   type: "image" | "video";
   accept: string;
-  Placeholder: string;
+  placeholder: string;
   folder: string;
   variant: "dark" | "light";
   onFileChange: (filePath: string) => void;
@@ -50,7 +50,7 @@ interface Props {
 const FileUpload = ({
   type,
   accept,
-  Placeholder,
+  placeholder,
   folder,
   variant,
   onFileChange,
@@ -95,7 +95,7 @@ const FileUpload = ({
     if (type === "image") {
       if (file.size > 20 * 1024 * 1024) {
         toast({
-          title: `Fle size too large`,
+          title: `File size too large`,
           description: `Please upload a file that is less than 20MB in size`,
           variant: `destructive`,
         });
@@ -104,7 +104,7 @@ const FileUpload = ({
     } else if (type === "video") {
       if (file.size > 50 * 1024 * 1024) {
         toast({
-          title: `Fle size too large`,
+          title: `File size too large`,
           description: `Please upload a file that is less than 20MB in size`,
           variant: `destructive`,
         });
@@ -148,17 +148,22 @@ const FileUpload = ({
           }
         }}
       >
-        <Image
-          src={"/icons/upload.svg"}
-          alt="upload-icon"
-          width={20}
-          height={20}
-          className="object-contain"
-        />
+        {file ? (
+          <>
+            <Image
+              src={"/icons/upload.svg"}
+              alt="upload-icon"
+              width={20}
+              height={20}
+              className="object-contain"
+            />
 
-        <p className={cn("text-base ", styles.placeholder)}>{Placeholder}</p>
-        {file && (
-          <p className={cn("upload-filename", styles.text)}>{file?.filePath}</p>
+            <p className={cn("upload-filename", styles.text)}>
+              {file?.filePath}
+            </p>
+          </>
+        ) : (
+          <p className={cn("text-base ", styles.placeholder)}>{placeholder}</p>
         )}
       </button>
 
@@ -169,21 +174,20 @@ const FileUpload = ({
           </div>
         </div>
       )}
-      {file &&
-        (type === "image" ? (
-          <IKImage
-            alt={file.filePath!}
-            path={file.filePath!}
-            width={500}
-            height={300}
-          />
-        ) : type === "video" ? (
-          <IKVideo
-            path={file.filePath!}
-            controls={true}
-            className="h-96 w-full rounded-xl"
-          />
-        ) : null)}
+      {file && type === "image" ? (
+        <IKImage
+          alt={file.filePath!}
+          path={file.filePath!}
+          width={500}
+          height={300}
+        />
+      ) : type === "video" ? (
+        <IKVideo
+          path={file.filePath!}
+          controls={true}
+          className="h-96 w-full rounded-xl"
+        />
+      ) : null}
     </ImageKitProvider>
   );
 };

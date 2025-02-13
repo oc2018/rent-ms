@@ -20,7 +20,7 @@ export const propertiesColumns: ColumnDef<Property>[] = [
     accessorKey: "propertyId",
     header: "House Number",
     cell: ({ row }) => (
-      <div className="text-14-medium">{row.original.propertyId}</div>
+      <div className="text-14-medium">{row.original.propertyNo}</div>
     ),
   },
   {

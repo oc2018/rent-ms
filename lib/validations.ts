@@ -16,11 +16,10 @@ export const signInSchema = z.object({
 });
 
 export const propertiesSchema = z.object({
-  propertyId: z.string().min(1),
+  propertyNo: z.string().min(1),
   propertySize: z.string().min(3),
   propertyLocation: z.string().min(3),
   propertyImage: z.string().nonempty("Image is required"),
-  // propertyOwner: z.string().min(1),
   rent: z.coerce.number().min(3),
   deposit: z.coerce.number().min(3),
   status: z.enum(["VACANT", "OCCUPIED"]),

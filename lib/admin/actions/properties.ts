@@ -11,7 +11,7 @@ export const createProperty = async (params: PropertyParams) => {
   const userId = session?.user?.id;
 
   const {
-    propertyId,
+    propertyNo,
     propertySize,
     propertyLocation,
     propertyImage,
@@ -23,7 +23,7 @@ export const createProperty = async (params: PropertyParams) => {
     const newProperty = await db
       .insert(properties)
       .values({
-        propertyId,
+        propertyNo,
         propertySize,
         propertyLocation,
         propertyImage,

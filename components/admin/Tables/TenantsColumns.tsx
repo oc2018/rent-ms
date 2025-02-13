@@ -1,30 +1,55 @@
 "use client";
 
+import StatusBadge from "@/components/StatusBadge";
 import { ColumnDef } from "@tanstack/react-table";
 
 export const tenantColumns: ColumnDef<User>[] = [
   {
+    header: "ID",
+    cell: ({ row }) => <div className="text-14-medium">{row.index + 1}</div>,
+  },
+  {
     accessorKey: "fullName",
-    header: "NAME",
+    header: "Name",
+    cell: ({ row }) => (
+      <div className="text-14-medium">{row.original.fullName}</div>
+    ),
   },
   {
     accessorKey: "idNumber",
-    header: "ID NUMBER",
+    header: "Id Number",
+    cell: ({ row }) => (
+      <div className="text-14-medium">{row.original.idNumber}</div>
+    ),
   },
   {
     accessorKey: "email",
-    header: "EMAIL",
+    header: "Email",
+    cell: ({ row }) => (
+      <div className="text-14-medium">{row.original.email}</div>
+    ),
   },
   {
     accessorKey: "kraPin",
     header: "KRA PIN",
+    cell: ({ row }) => (
+      <div className="text-14-medium">{row.original.kraPin}</div>
+    ),
   },
   {
     accessorKey: "phoneNumber",
-    header: "PHONE NUMBER",
+    header: "Phone Number",
+    cell: ({ row }) => (
+      <div className="text-14-medium">{row.original.phoneNumber}</div>
+    ),
   },
   {
     accessorKey: "status",
-    header: "STATUS",
+    header: "Status",
+    cell: ({ row }) => (
+      <div>
+        <StatusBadge status={row.original.status} />
+      </div>
+    ),
   },
 ];

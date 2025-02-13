@@ -24,6 +24,7 @@ const page = async () => {
       const owner = await getOwner(p.propertyOwner);
 
       return {
+        propertyNo: p.propertyNo,
         propertyId: p.propertyId,
         createdAt: p.createdAt,
         deposit: p.deposit,
