@@ -2,6 +2,7 @@
 
 import { currencyFormatter, dateFormatter } from "@/lib/utils";
 import { ColumnDef } from "@tanstack/react-table";
+import Link from "next/link";
 
 export const expensesColumns: ColumnDef<Expense>[] = [
   {
@@ -40,5 +41,11 @@ export const expensesColumns: ColumnDef<Expense>[] = [
 
       return <div className="text-right text-14-medium">{formated}</div>;
     },
+  },
+  {
+    header: "Actions",
+    cell: ({ row }) => (
+      <Link href={`/admin/expenses/${row.original.expenseId}`}>details</Link>
+    ),
   },
 ];

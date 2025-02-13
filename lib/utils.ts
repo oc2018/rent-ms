@@ -29,3 +29,13 @@ export const currencyFormatter = (amount: number) => {
 
   return ksh.format(amount).replace("KES", "");
 };
+
+export const addZeros = (no: number) => {
+  if (no.toString().length == 1) {
+    return `00${no}`;
+  } else if (no.toString().length == 2) {
+    return `0${no}`;
+  } else {
+    return `${no}`;
+  }
+};
