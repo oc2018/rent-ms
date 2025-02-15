@@ -14,6 +14,7 @@ import { FormFieldType } from "@/lib/constants";
 import { SelectItem } from "../ui/select";
 import SubmitButton from "../SubmitButton";
 import { createTxn } from "@/lib/admin/actions/transactions";
+import { getPropertyNo } from "@/lib/admin/actions/properties";
 
 interface PaymentProps {
   type: "create" | "edit";
@@ -40,11 +41,12 @@ const PaymentForm = ({ type, tenants, allProperties }: PaymentProps) => {
 
       if (result.success) {
         const { paymentId, propertyId, rentPaid, depositPaid } = result.data;
+        const propertyNo = await getPropertyNo(propertyId);
 
         const txnData = {
           description: `Payment of ${
             rentPaid ? "Rent" : "Deposit"
-          } for house Number ${propertyId}.`,
+          } for house Number ${propertyNo}.`,
           transactionAmount: rentPaid ? rentPaid : depositPaid,
           isDebit: false,
           paymentId,

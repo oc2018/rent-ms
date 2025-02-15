@@ -1,7 +1,7 @@
 import PaymentList from "@/components/admin/PaymentList";
 import { Button } from "@/components/ui/button";
 import { db } from "@/database/drizzle";
-import { payments, users } from "@/database/schema";
+import { payments, properties, users } from "@/database/schema";
 import { eq } from "drizzle-orm";
 import Link from "next/link";
 import React from "react";
@@ -9,23 +9,38 @@ import React from "react";
 const RentAccount = async () => {
   const allPayments = (await db.select().from(payments)) as Payment[];
 
-  const getTenant = async (tenantId: string) =>
-    (await db
+  const getTenant = async (tenantId: string): Promise<string> => {
+    const result = await db
       .select({ fullName: users.fullName })
       .from(users)
-      .where(eq(users.id, tenantId))) as { fullName: string }[];
+      .where(eq(users.id, tenantId));
+
+    return result[0].fullName;
+  };
+
+  const getPropertyNo = async (propertyId: string): Promise<string | null> => {
+    const result = await db
+      .select({ propertyNo: properties.propertyNo })
+      .from(properties)
+      .where(eq(properties.propertyId, propertyId))
+      .limit(1);
+
+    return result ? result[0].propertyNo : null;
+  };
 
   const paymentData = await Promise.all(
     allPayments.map(async (p) => {
       const tenant = await getTenant(p.tenantId);
+      const propertyNo = await getPropertyNo(p.propertyId);
 
       return {
+        propertyNo: propertyNo,
         paymentId: p.paymentId,
         receiptNo: p.receiptNo,
         propertyId: p.propertyId,
         rentPaid: p.rentPaid,
         depositPaid: p.depositPaid,
-        tenant: tenant[0]?.fullName,
+        tenant: tenant,
         createdAt: p.createdAt,
       };
     })

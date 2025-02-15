@@ -114,7 +114,7 @@ interface SubmitButtonProps {
 }
 
 interface PaymentListProps {
-  propertyNo: string;
+  propertyNo: string | null;
   paymentId: string;
   receiptNo: number;
   propertyId: string;

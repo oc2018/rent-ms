@@ -6,7 +6,9 @@ import { ColumnDef } from "@tanstack/react-table";
 export const txnColumns: ColumnDef<TxnList>[] = [
   {
     header: "ID",
-    cell: ({ row }) => <div className="text-14-medium">{row.index + 1}</div>,
+    cell: ({ row }) => (
+      <div className="text-14-medium px-3">{row.index + 1}</div>
+    ),
   },
   {
     accessorKey: "createdAt",
@@ -28,14 +30,14 @@ export const txnColumns: ColumnDef<TxnList>[] = [
     accessorKey: "expenseNo",
     header: "Expense Number ",
     cell: ({ row }) => (
-      <div className="text-14-medium">{row.original.expenseNo}</div>
+      <div className="text-14-medium text-center">{row.original.expenseNo}</div>
     ),
   },
   {
     accessorKey: "paymentNo",
     header: "Receipt Number",
     cell: ({ row }) => (
-      <div className="text-14-medium">{row.original.paymentNo}</div>
+      <div className="text-14-medium text-center">{row.original.paymentNo}</div>
     ),
   },
   {
@@ -51,7 +53,7 @@ export const txnColumns: ColumnDef<TxnList>[] = [
     accessorKey: "paymentNo",
     header: "Balance",
     cell: ({ row }) => (
-      <div className="text-14-medium">
+      <div className="text-14-medium text-right">
         {currencyFormatter(row.original.balance)}
       </div>
     ),

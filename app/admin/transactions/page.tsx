@@ -48,7 +48,7 @@ const page = async () => {
       const balance = accumulator(txn.transactionAmount!, txn.isDebit);
 
       const rowClass = cn(
-        "text-14-medium p-2",
+        "text-14-medium p-2 text-right",
         txn.isDebit ? "bg-red-100" : "bg-green-100"
       );
 

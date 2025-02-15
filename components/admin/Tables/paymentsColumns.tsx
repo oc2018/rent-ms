@@ -27,10 +27,9 @@ export const paymentsColumns: ColumnDef<PaymentListProps>[] = [
   {
     accessorKey: "propertyNo",
     header: "House Number",
-    cell: ({ row }) => console.log(row.original),
-    // ({ row }) => (
-    //   <div className="text-14-medium">{row.original.propertyNo}</div>
-    // ),
+    cell: ({ row }) => (
+      <div className="text-14-medium">{row.original.propertyNo}</div>
+    ),
   },
   {
     accessorKey: "tenant",
