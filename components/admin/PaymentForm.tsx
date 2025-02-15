@@ -46,8 +46,8 @@ const PaymentForm = ({ type, tenants, allProperties }: PaymentProps) => {
         const txnData = {
           description: `Payment of ${
             rentPaid ? "Rent" : "Deposit"
-          } for house Number ${propertyNo}.`,
-          transactionAmount: rentPaid ? rentPaid : depositPaid,
+          } for house Number: ${propertyNo}.`,
+          transactionAmount: rentPaid + depositPaid,
           isDebit: false,
           paymentId,
         };

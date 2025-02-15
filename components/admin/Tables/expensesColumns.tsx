@@ -22,7 +22,7 @@ export const expensesColumns: ColumnDef<Expense>[] = [
     accessorKey: "expenseNo",
     header: "Expense Number",
     cell: ({ row }) => (
-      <p className="text-14-medium">{row?.original.expenseNo}</p>
+      <p className="text-14-medium text-center">{row?.original.expenseNo}</p>
     ),
   },
   {
@@ -39,7 +39,9 @@ export const expensesColumns: ColumnDef<Expense>[] = [
       const amount = parseFloat(row.getValue("expenseAmount"));
       const formated = currencyFormatter(amount);
 
-      return <div className="text-right text-14-medium">{formated}</div>;
+      return (
+        <div className="text-right text-14-medium text-center">{formated}</div>
+      );
     },
   },
   {
