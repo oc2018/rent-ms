@@ -38,8 +38,6 @@ const PaymentForm = ({ type, tenants, allProperties }: PaymentProps) => {
     if (type === "create") {
       const result = await createPayment(values);
 
-      console.log(result);
-
       if (result.success) {
         const { paymentId, propertyId, rentPaid, depositPaid } = result.data;
 
@@ -96,12 +94,9 @@ const PaymentForm = ({ type, tenants, allProperties }: PaymentProps) => {
               label="House Number"
               placeholder="House Number"
             >
-              {allProperties.map((property) => (
-                <SelectItem
-                  key={property.propertyId}
-                  value={property?.propertyId}
-                >
-                  <p>{property?.propertyId}</p>
+              {allProperties.map((property, i) => (
+                <SelectItem key={i + 1} value={property?.propertyId}>
+                  <p>{property?.propertyNo}</p>
                 </SelectItem>
               ))}
             </CustomFormField>

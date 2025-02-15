@@ -26,7 +26,7 @@ const PropertyCard = ({
   } = propertyDetails;
   return (
     <>
-      <div className="w-full h-full flex flex-col gap-7">
+      <div className="w-full h-full flex flex-col  rounded-2xl bg-white p-7 gap-7">
         <div className="w-full md:p-3 flex flex-col md:flex-row gap-7 items-center justify-between">
           <div className="">
             <h2 className="font-bold text-2xl ">{propertyNo}</h2>

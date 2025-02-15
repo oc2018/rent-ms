@@ -77,6 +77,8 @@ export const payments = pgTable("payments", {
 export const expenses = pgTable("expenses", {
   expenseId: uuid("expense_id").primaryKey().defaultRandom(),
   expenseNo: serial("expense_no"),
+  receiptImgUrl: text("receipt_img_url"),
+  propertyId: uuid("property_id").references(() => properties.propertyId),
   description: text("description").notNull(),
   expenseAmount: real("expense_amount").default(0.0),
   createdAt: timestamp("created_at", {

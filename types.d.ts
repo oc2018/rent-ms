@@ -64,12 +64,16 @@ interface Payment {
 interface ExpenseParams {
   description: string;
   expenseAmount: number;
+  receiptImgUrl?: string;
+  propertyId?: string;
 }
 
 interface Expense {
   expenseId: string;
   expenseNo: number;
   description: string;
+  receiptImgUrl?: string;
+  propertyId?: string;
   expenseAmount: number | null;
   createdAt: Date | null;
 }
@@ -92,14 +96,25 @@ interface Txn {
   createdAt: Date | null;
 }
 
+interface TxnList {
+  balance: number;
+  rowClass: string;
+  createdAt: Date | null;
+  description: string;
+  isDebit: boolean;
+  paymentNo: number | null;
+  expenseNo: number | null;
+  transactionAmount: number | null;
+}
+
 interface SubmitButtonProps {
-  onClick: () => null;
   isSubmitting: boolean;
   className?: string;
   children?: React.ReactNode;
 }
 
 interface PaymentListProps {
+  propertyNo: string;
   paymentId: string;
   receiptNo: number;
   propertyId: string;

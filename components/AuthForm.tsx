@@ -56,7 +56,7 @@ const AuthForm = <T extends FieldValues>({
           : "You have successfully signed up",
       });
 
-      router.push("/");
+      router.push("/admin");
     } else {
       toast({
         title: `Error ${isSignIn ? "signing in" : "signing up"}`,
@@ -95,7 +95,7 @@ const AuthForm = <T extends FieldValues>({
                       <FileUpload
                         type="image"
                         accept="image/*"
-                        Placeholder="Upload your ID"
+                        placeholder="Upload your ID"
                         folder="ids"
                         variant="dark"
                         onFileChange={field.onChange}

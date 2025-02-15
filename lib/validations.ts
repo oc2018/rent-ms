@@ -33,6 +33,8 @@ export const paymentSchema = z.object({
 });
 
 export const expenseSchema = z.object({
+  receiptImgUrl: z.string().optional(),
+  propertyId: z.string().optional(),
   description: z.string().min(10),
   expenseAmount: z.coerce.number().nonnegative(),
 });

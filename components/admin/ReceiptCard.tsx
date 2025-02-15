@@ -1,15 +1,17 @@
+"use client";
+
+import config from "@/lib/config";
 import { addZeros, currencyFormatter, dateFormatter } from "@/lib/utils";
 import { IKImage } from "imagekitio-next";
 import React from "react";
 
 const ReceiptCard = ({ expenseDetails }: { expenseDetails: Expense }) => {
-  const receiptImgUrl = false;
-
-  const { createdAt, expenseNo, description, expenseAmount } = expenseDetails;
+  const { createdAt, expenseNo, description, expenseAmount, receiptImgUrl } =
+    expenseDetails;
   return (
-    <div className="flex flex-col md:flex-row w-full">
-      <div className="w-1/2 h-full">
-        <div className="">
+    <div className="flex flex-col h-full rounded-2xl bg-white p-7 lg:flex-row w-full">
+      <div className="flex flex-col items-center justify-center lg:w-1/2 h-full">
+        <div className="flex flex-col justify-center items-center w-full">
           <h3 className="font-semibold text-primary-admin text-2xl">
             Expense No: {addZeros(expenseNo)}
           </h3>
@@ -17,47 +19,50 @@ const ReceiptCard = ({ expenseDetails }: { expenseDetails: Expense }) => {
             Date: {createdAt && dateFormatter(createdAt)}
           </div>
         </div>
-        <div className="flex w-full h-full p-10 flex-col">
-          <div className="flex w-3/4 ">
-            <div className="w-3/4 p-4 border-b  border-r border-primary-admin">
-              <p className="font-semibold">Description</p>
+        <div className="flex  w-full h-full p-10 flex-col">
+          <div className="flex">
+            <div className="w-3/4 border-b border-r border-primary-admin">
+              <p className=" py-4 font-semibold">Description</p>
             </div>
-            <div className="w-3/4 p-4 border-b text-semibold border-primary-admin">
-              <p className="font-semibold">Amount</p>
+            <div className="lg:w-3/4 w-1/4 border-b text-semibold border-primary-admin">
+              <p className="font-semibold py-4 text-end ">Amount</p>
             </div>
           </div>
-          <div className="flex w-3/4 h-3/4">
-            <div className="w-3/4 h-full border-r border-primary-admin">
-              <p className="p-2">{description}</p>
-              <h4 className="align-text-bottom p-2 font-semibold">
+          <div className="flex h-3/4">
+            <div className="w-3/4 space-y-10 lg:space-y-56 h-full border-r border-primary-admin">
+              <p className="py-2">{description}</p>
+
+              <h4 className="align-text-bottom py-2 font-semibold">
                 Account to Charge: <br />
                 General Account
               </h4>
             </div>
-            <div className="w-3/4 ">
-              <p className="p-2 text-end">
+            <div className="lg:w-3/4 space-y-10 lg:space-y-60 ">
+              <p className="py-2 text-end">
                 {expenseAmount && currencyFormatter(expenseAmount)}
               </p>
-              <h4 className="p-2 text-end font-semibold">
+
+              <h4 className="py-2 text-end font-semibold">
                 Total: {expenseAmount && currencyFormatter(expenseAmount)}
               </h4>
             </div>
           </div>
         </div>
       </div>
-      <div className="w-1/2 h-full">
-        <div className="flex flex-col justify-between">
+      <div className="lg:w-1/2  h-full">
+        <div className="flex flex-col w-full items-center  justify-center">
           <h3 className="font-semibold text-primary-admin text-2xl">Receipt</h3>
           <p className="text-gray-600">
             Receipt Date: {createdAt && dateFormatter(createdAt)}
           </p>
         </div>
         <div className="flex justify-center h-full items-center">
-          <div className="flex relative items-center justify-center w-3/4 rounded-lg h-[350px] bg-gray-300">
+          <div className="flex relative items-center justify-center w-full lg:w-3/4 rounded-lg lg:h-3/4 h-[350px] lg:min-h-1/2 bg-gray-300">
             {receiptImgUrl ? (
               <>
                 <IKImage
-                  src={receiptImgUrl}
+                  path={receiptImgUrl}
+                  urlEndpoint={config.env.imagekit.urlEndpoint}
                   alt="receipt"
                   fill
                   lqip={{ active: true }}

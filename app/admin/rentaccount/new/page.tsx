@@ -8,11 +8,22 @@ import Link from "next/link";
 import React from "react";
 
 const Payment = async () => {
-  const { password, ...safeUsers } = users;
-  const tenants = await db
-    .select(safeUsers)
+  const tenants = (await db
+    .select({
+      id: users.id,
+      fullName: users.fullName,
+      email: users.email,
+      phoneNumber: users.phoneNumber,
+      idNumber: users.idNumber,
+      idCard: users.idCard,
+      kraPin: users.kraPin,
+      status: users.status,
+      role: users.role,
+      lastActivityDate: users.lastActivityDate,
+      createdAt: users.createdAt,
+    })
     .from(users)
-    .where(eq(users.role, "USER"));
+    .where(eq(users.role, "USER"))) as User[];
 
   const allProperties = (await db
     .select()
