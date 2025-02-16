@@ -2,12 +2,15 @@ import PaymentList from "@/components/admin/PaymentList";
 import { Button } from "@/components/ui/button";
 import { db } from "@/database/drizzle";
 import { payments, properties, users } from "@/database/schema";
-import { eq } from "drizzle-orm";
+import { asc, eq } from "drizzle-orm";
 import Link from "next/link";
 import React from "react";
 
 const RentAccount = async () => {
-  const allPayments = (await db.select().from(payments)) as Payment[];
+  const allPayments = (await db
+    .select()
+    .from(payments)
+    .orderBy(asc(payments.createdAt))) as Payment[];
 
   const getTenant = async (tenantId: string): Promise<string> => {
     const result = await db

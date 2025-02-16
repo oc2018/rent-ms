@@ -16,9 +16,11 @@ export const getInitials = (name: string): string =>
     .toUpperCase()
     .slice(0, 2);
 
-export const dateFormatter = (today: Date) => {
+export const dateFormatter = (today: Date | string) => {
   today = new Date(today);
-  return `${today.getDate()}-${today.getMonth() + 1}-${today.getFullYear()}`;
+  return `${today.getDate()} - ${
+    today.getMonth() + 1
+  } - ${today.getFullYear()}`;
 };
 
 export const currencyFormatter = (amount: number) => {

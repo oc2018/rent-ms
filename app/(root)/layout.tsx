@@ -31,8 +31,8 @@ const rootLayout = async ({ children }: { children: ReactNode }) => {
       .where(eq(users.id, session?.user?.id));
   });
   return (
-    <main className="root-container">
-      <div className="mx-auto max-w-7xl">
+    <main className="root-container text-white">
+      <div className="mx-auto w-full max-w-7xl">
         <Header session={session} />
         <div className="mt-10 pb-10">{children}</div>
       </div>

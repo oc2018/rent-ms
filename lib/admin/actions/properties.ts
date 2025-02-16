@@ -50,12 +50,15 @@ export const createProperty = async (params: PropertyParams) => {
 };
 
 export const getPropertyNo = async (
-  productId: string
+  propertyId: string
 ): Promise<string | null> => {
+  if (!propertyId) {
+    return "";
+  }
   const result = await db
     .select({ propertyNo: properties.propertyNo })
     .from(properties)
-    .where(eq(properties.propertyId, productId))
+    .where(eq(properties.propertyId, propertyId))
     .limit(1);
 
   return result ? result[0].propertyNo : null;

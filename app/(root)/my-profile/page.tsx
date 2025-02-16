@@ -1,19 +1,70 @@
-import { signOut } from "@/auth";
+import { auth, signOut } from "@/auth";
+import ProfileCard from "@/components/ProfileCard";
 import { Button } from "@/components/ui/button";
+import { db } from "@/database/drizzle";
+import { allocation, users } from "@/database/schema";
+import { getPropertyNo } from "@/lib/admin/actions/properties";
+import { eq } from "drizzle-orm";
 import React from "react";
 
-const page = () => {
+const page = async () => {
+  const session = await auth();
+
+  if (!session || !session.user) {
+    throw new Error("You are not authenticated");
+  }
+  const id = session.user.id as string;
+
+  const userDetails = (await db
+    .select({
+      id: users.id,
+      fullName: users.fullName,
+      email: users.email,
+      phoneNumber: users.phoneNumber,
+      idNumber: users.idNumber,
+      idCard: users.idCard,
+      kraPin: users.kraPin,
+      status: users.status,
+      lastActivityDate: users.lastActivityDate,
+      createdAt: users.createdAt,
+    })
+    .from(users)
+    .where(eq(users.id, id))) as User[];
+
+  const [allocated] = (await db
+    .select()
+    .from(allocation)
+    .where(eq(allocation.tenantId, id))
+    .limit(1)) as allocationProps[];
+
+  const propertyNo = await getPropertyNo(allocated?.propertyId);
+
+  const allUserDetails = [
+    {
+      ...userDetails[0],
+      propertyNo,
+      rentDue: allocated?.rentDue,
+      depositDue: allocated?.depositDue,
+      rentStatus: allocated?.rentStatus,
+    },
+  ];
   return (
     <>
-      <form
-        action={async () => {
-          "use server";
+      <section className="w-full rounded-2xl p-7">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <h2 className="text-xl font-semibold">My Profile</h2>
+          <form
+            action={async () => {
+              "use server";
 
-          await signOut();
-        }}
-      >
-        <Button>Logout</Button>
-      </form>
+              await signOut();
+            }}
+          >
+            <Button>Logout</Button>
+          </form>
+        </div>
+        <ProfileCard userDetails={allUserDetails} />
+      </section>
     </>
   );
 };

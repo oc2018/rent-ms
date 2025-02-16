@@ -135,6 +135,42 @@ interface PropertyCardProps {
   status: "VACANT" | "OCCUPIED";
 }
 
+interface UserTxnListProps {
+  paymentId: string;
+  receiptNo: number;
+  tenantId: string;
+  propertyId: string;
+  rentPaid: number | null;
+  depositPaid: number | null;
+  createdAt: Date | null;
+}
+
+interface ProfileCardProps {
+  id: string;
+  fullName: string;
+  email: string;
+  phoneNumber: string;
+  idNumber: number;
+  idCard: string;
+  kraPin: string;
+  status: "PENDING" | "APPROVED" | "REJECTED";
+  lastActivityDate: string;
+  createdAt: Date | null;
+  propertyNo: string | null;
+  rentDue: number;
+  rentStatus: "CLEARED" | "DUE" | "OVERDUE" | "DEFAULTED";
+}
+
+interface allocationProps {
+  allocationId: string;
+  propertyId: string;
+  tenantId: string;
+  rentDue: number;
+  depositDue: number;
+  rentStatus: "CLEARED" | "DUE" | "OVERDUE" | "DEFAULTED";
+  createdAt: Date | null;
+}
+
 // interface PropertiesListProps {
 //   propertyId: string;
 //   createdAt: Date | null;

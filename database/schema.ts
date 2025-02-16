@@ -24,6 +24,13 @@ export const PROPERTY_STATUS_ENUM = pgEnum("property_status", [
   "OCCUPIED",
 ]);
 
+export const RENT_STATUS_ENUM = pgEnum("rent_status", [
+  "CLEARED",
+  "DUE",
+  "OVERDUE",
+  "DEFAULTED",
+]);
+
 export const users = pgTable("users", {
   id: uuid("id").notNull().primaryKey().defaultRandom().unique(),
   fullName: varchar("full_name", { length: 255 }).notNull(),
@@ -93,6 +100,18 @@ export const transactions = pgTable("transactions", {
   description: text("description").notNull(),
   transactionAmount: real("transaction_amount").default(0.0),
   isDebit: boolean("is_debit").notNull(),
+  createdAt: timestamp("created_at", {
+    withTimezone: true,
+  }).defaultNow(),
+});
+
+export const allocation = pgTable("allocation", {
+  allocationId: uuid("allocation_id").primaryKey().defaultRandom(),
+  propertyId: uuid("property_id").references(() => properties.propertyId),
+  tenantId: uuid("tenant_it").references(() => users.id),
+  rentDue: integer("rent_due").notNull().default(0),
+  depositDue: integer("deposit_due").default(0),
+  rentStatus: RENT_STATUS_ENUM("rent_status").default("DUE"),
   createdAt: timestamp("created_at", {
     withTimezone: true,
   }).defaultNow(),

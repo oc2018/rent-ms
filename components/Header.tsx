@@ -10,7 +10,7 @@ import { Session } from "next-auth";
 const Header = ({ session }: { session: Session }) => {
   const pathname = usePathname();
   return (
-    <header className="my-10 flex w-full justify-between gap-5">
+    <header className="my-10 text-white flex w-full justify-between gap-5">
       <Link
         href="/"
         className="text-gray-300 flex items-center gap-2 border-gray-100 border-[1px] p-1 rounded-lg"
@@ -28,28 +28,6 @@ const Header = ({ session }: { session: Session }) => {
         </div>
       </Link>
       <ul className="flex flex-row items-center gap-8">
-        <li>
-          <Link
-            href="/properties"
-            className={cn(
-              "text-base cursor-pointer capitalize",
-              pathname === "/properties" ? "text-light-200" : "text-light-100"
-            )}
-          >
-            Properties
-          </Link>
-        </li>
-        <li>
-          <Link
-            href="/customers"
-            className={cn(
-              "text-base cursor-pointer capitalize",
-              pathname === "/customers" ? "text-light-200" : "text-light-100"
-            )}
-          >
-            customers
-          </Link>
-        </li>
         <li>
           <Link
             href="/transactions"
@@ -71,16 +49,6 @@ const Header = ({ session }: { session: Session }) => {
             </Avatar>
           </Link>
         </li>
-        {/* <li>
-          <Link href={"/my-profile"}>
-            <Image
-              src="/icons/logout.svg"
-              alt="logout"
-              width={35}
-              height={35}
-            />
-          </Link>
-        </li> */}
       </ul>
     </header>
   );

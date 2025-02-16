@@ -30,7 +30,7 @@ const RootLayout = async ({ children }: { children: ReactNode }) => {
     <html lang="en">
       <SessionProvider session={session}>
         <body className={`${ibmPlexSans.className} antialiased`}>
-          <main>{children}</main>
+          <main className="w-screen">{children}</main>
           <Toaster />
         </body>
       </SessionProvider>
