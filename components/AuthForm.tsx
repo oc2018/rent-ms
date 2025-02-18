@@ -56,7 +56,11 @@ const AuthForm = <T extends FieldValues>({
           : "You have successfully signed up",
       });
 
-      router.push("/admin");
+      if (isSignIn) {
+        router.push("/admin");
+      } else {
+        router.push("/admin/tenants");
+      }
     } else {
       toast({
         title: `Error ${isSignIn ? "signing in" : "signing up"}`,

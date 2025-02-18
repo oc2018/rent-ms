@@ -162,6 +162,12 @@ interface ProfileCardProps {
 }
 
 interface allocationProps {
+  propertyId: string;
+  tenantId: string;
+  status: "PENDING" | "APPROVED" | "REJECTED";
+}
+
+interface allocation {
   allocationId: string;
   propertyId: string;
   tenantId: string;

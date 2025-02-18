@@ -25,6 +25,7 @@ const page = async () => {
       idCard: users.idCard,
       kraPin: users.kraPin,
       status: users.status,
+      role: users.role,
       lastActivityDate: users.lastActivityDate,
       createdAt: users.createdAt,
     })
@@ -35,14 +36,14 @@ const page = async () => {
     .select()
     .from(allocation)
     .where(eq(allocation.tenantId, id))
-    .limit(1)) as allocationProps[];
+    .limit(1)) as allocation[];
 
   const propertyNo = await getPropertyNo(allocated?.propertyId);
 
   const allUserDetails = [
     {
       ...userDetails[0],
-      propertyNo,
+      propertyNo: propertyNo,
       rentDue: allocated?.rentDue,
       depositDue: allocated?.depositDue,
       rentStatus: allocated?.rentStatus,

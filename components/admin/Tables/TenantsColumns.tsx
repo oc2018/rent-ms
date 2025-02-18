@@ -2,6 +2,7 @@
 
 import StatusBadge from "@/components/StatusBadge";
 import { ColumnDef } from "@tanstack/react-table";
+import Approve from "../Approve";
 
 export const tenantColumns: ColumnDef<User>[] = [
   {
@@ -51,5 +52,15 @@ export const tenantColumns: ColumnDef<User>[] = [
         <StatusBadge status={row.original.status} />
       </div>
     ),
+  },
+  {
+    header: "Actions",
+    cell: ({ row: { original: data } }) => {
+      return (
+        <div className="">
+          <Approve data={data} />
+        </div>
+      );
+    },
   },
 ];

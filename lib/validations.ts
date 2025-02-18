@@ -38,3 +38,8 @@ export const expenseSchema = z.object({
   description: z.string().min(10),
   expenseAmount: z.coerce.number().nonnegative(),
 });
+
+export const ApproveSchema = z.object({
+  propertyId: z.string().min(5),
+  status: z.enum(["PENDING", "APPROVED", "REJECTED"]),
+});

@@ -1,14 +1,24 @@
 "use server";
 
 import { db } from "@/database/drizzle";
-import { allocation, properties } from "@/database/schema";
+import { allocation, properties, users } from "@/database/schema";
 import { parseStringify } from "@/lib/utils";
 import { eq, inArray } from "drizzle-orm";
 import cron from "node-cron";
 
 export const allocateProperty = async (params: allocationProps) => {
-  const { propertyId, tenantId } = params;
+  const { propertyId, tenantId, status } = params;
+
   try {
+    const approved = await db.update(users).set({ status: status }).returning();
+
+    if (!approved || approved[0].status === "REJECTED") {
+      return {
+        success: false,
+        error: "User details incomplete or approval denied.",
+      };
+    }
+
     const property = await db
       .select({
         status: properties.status,
@@ -38,7 +48,13 @@ export const allocateProperty = async (params: allocationProps) => {
         depositDue,
       })
       .returning();
-    console.log("1" + result);
+
+    if (!result || result.length === 0) {
+      return {
+        success: false,
+        message: "Insert into the allocation table failed",
+      };
+    }
 
     if (result) {
       const result = await db
@@ -46,7 +62,13 @@ export const allocateProperty = async (params: allocationProps) => {
         .set({ status: "OCCUPIED" })
         .where(eq(properties.propertyId, propertyId))
         .returning();
-      console.log("2" + result);
+
+      if (!result || result.length === 0) {
+        return {
+          success: false,
+          message: "Property not found, status not updated",
+        };
+      }
 
       return {
         success: true,
@@ -78,7 +100,7 @@ const updateRentMonthly = async () => {
       .filter((id): id is string => id !== null);
 
     if (propertyIds.length === 0) {
-      console.warn("No valid prperty IDs found, skipping rent update.");
+      console.warn("No valid property IDs found, skipping rent update.");
       return { success: false, error: "No valid properties to update. " };
     }
 

@@ -4,11 +4,10 @@ import { IKImage } from "imagekitio-next";
 import config from "@/lib/config";
 import React from "react";
 import StatusBadge from "./StatusBadge";
-import { dateFormatter } from "@/lib/utils";
+import { currencyFormatter, dateFormatter } from "@/lib/utils";
 import clsx from "clsx";
 
 const ProfileCard = ({ userDetails }: { userDetails: ProfileCardProps[] }) => {
-  console.log(userDetails);
   return (
     <>
       {userDetails.map((user) => (
@@ -32,11 +31,15 @@ const ProfileCard = ({ userDetails }: { userDetails: ProfileCardProps[] }) => {
           </div>
           <div className="lg:w-full lg:pl-5 flex flex-col gap-6">
             <div
-              className={clsx("flex justify-between p-4 border rounded-lg", {
-                "border-green-600": user.status === "APPROVED",
-                "border-red-600": user.status === "REJECTED",
-                "border-orange-600": user.status === "PENDING",
-              })}
+              className={clsx(
+                "flex justify-between p-4 border text-xl font-bold rounded-lg",
+                {
+                  "border-green-600": user.rentStatus === "CLEARED",
+                  "border-red-600": user.rentStatus === "DEFAULTED",
+                  "border-orange-600": user.rentStatus === "OVERDUE",
+                  "border-blue-600": user.rentStatus === "DUE",
+                }
+              )}
             >
               <h2 className="text-18 font-bold text-2xl">Tenancy Status:</h2>
               <StatusBadge status={user.status} />
@@ -45,7 +48,18 @@ const ProfileCard = ({ userDetails }: { userDetails: ProfileCardProps[] }) => {
               <h2 className="text-18 font-bold text-2xl">
                 Tenant Name: {user.fullName}
               </h2>
-              <p className="text-xl font-semibold">Rent Due: </p>
+              {/* "CLEARED" | "DUE" | "OVERDUE" | "DEFAULTED" */}
+              <p
+                className={clsx("flex py-4 text-xl font-semibold rounded-lg", {
+                  "text-green-600": user.rentStatus === "CLEARED",
+                  "text-red-600": user.rentStatus === "DEFAULTED",
+                  "text-orange-600": user.rentStatus === "OVERDUE",
+                  "text-blue-600": user.rentStatus === "DUE",
+                })}
+              >
+                Rent Status:{" "}
+                {`${currencyFormatter(user.rentDue)} is ${user.rentStatus}`}
+              </p>
               <p className="">
                 Last Activity Date:{" "}
                 {user.lastActivityDate && dateFormatter(user.lastActivityDate)}

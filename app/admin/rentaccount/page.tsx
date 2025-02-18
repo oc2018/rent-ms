@@ -52,7 +52,7 @@ const RentAccount = async () => {
   return (
     <section className="w-full rounded-2xl bg-white p-7">
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <h2 className="text-xl font-semibold">Rent Account</h2>
+        <h2 className="text-xl font-semibold">Rent Payments</h2>
         <Button className="bg-primary-admin" asChild>
           <Link className="text-white" href="/admin/rentaccount/new">
             + Enter a New payment
