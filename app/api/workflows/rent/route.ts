@@ -8,12 +8,6 @@ import { currencyFormatter } from "@/lib/utils";
 
 // type userStatus = "non-active" | "active";
 
-type InitialState = {
-  email: string;
-  fullName: string;
-  userId: string;
-};
-
 const day = new Date();
 const month = day.getMonth() + 1;
 const year = day.getFullYear();
@@ -22,37 +16,41 @@ const year = day.getFullYear();
 // const ONE_MONTH = 30 * ONE_DAY_IN_MS;
 const ONE_MONTH = 1000 * 60 * 60;
 
-const getUserStatus = async (email: string) => {
+const getUserStatus = async (tenantId: string) => {
   const user = await db
     .select({ status: users.status, id: users.id })
     .from(users)
-    .where(eq(users.email, email));
+    .where(eq(users.id, tenantId));
 
   if (!user.length || ["PENDING", "REJECTED", null].includes(user[0]?.status))
     return "non-active";
 
   if (user[0]?.status === "APPROVED")
-    return { status: "active", userId: user[0]?.id };
+    return { status: "active", tenantId: user[0]?.id };
 };
 
-const getRentdue = async (userId: string) => {
+const getRentdue = async (tenantId: string) => {
   return await db
     .select({ rentDue: allocation.rentDue })
     .from(allocation)
-    .where(eq(allocation.tenantId, userId));
+    .where(eq(allocation.tenantId, tenantId));
 };
 
-export const { POST } = serve<InitialState>(async (context) => {
-  const { email, fullName } = context.requestPayload;
+export const { POST } = serve(async (context) => {
+  const tenants = await db.select().from(users).where(eq(users.role, "USER"));
+
+  const [tenantId] = tenants.map((tenant) => tenant.id);
+  const [email] = tenants.map((tenant) => tenant.email);
+  const [fullName] = tenants.map((tenant) => tenant.email);
 
   const status = await context.run("check-if-tenant", async () => {
-    return await getUserStatus(email);
+    return await getUserStatus(tenantId);
   });
 
   if (!status || status === "non-active") return;
 
   const rentDue = await context.run("get-rent-due", async () => {
-    return await getRentdue(status.userId);
+    return await getRentdue(status.tenantId);
   });
 
   const rentAmount = rentDue.length > 0 ? rentDue[0].rentDue : 0;
@@ -132,8 +130,7 @@ export const { POST } = serve<InitialState>(async (context) => {
                     </div>
 
                     <div class="footer">
-                        <p>This is an automated message. Please do not reply directly to this email.</p>
-                        <p>[Company Address]<br>
+                        <p>Nkubu - Mitunguu RD<br>
                         0720965996 | eric@ericndege.com | www.ericndege.com</p>
                         <p>© ${year} Ontime Consultants. All rights reserved.</p>
                         
