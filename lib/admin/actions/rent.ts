@@ -9,8 +9,14 @@ import cron from "node-cron";
 export const allocateProperty = async (params: allocationProps) => {
   const { propertyId, tenantId, status } = params;
 
+  console.log(status);
+
   try {
-    const approved = await db.update(users).set({ status: status }).returning();
+    const approved = await db
+      .update(users)
+      .set({ status: status })
+      .where(eq(users.id, tenantId))
+      .returning();
 
     if (!approved || approved[0].status === "REJECTED") {
       return {
@@ -85,7 +91,7 @@ export const allocateProperty = async (params: allocationProps) => {
   }
 };
 
-const updateRentMonthly = async () => {
+export const updateRentMonthly = async () => {
   console.log("running cron");
   try {
     const allocations = await db
@@ -139,10 +145,10 @@ const updateRentMonthly = async () => {
   }
 };
 
-// const monthly = "0 0 1 * *";
-const everyMinute = "* * * * *";
+const monthly = "0 0 1 * *";
+// const everyMinute = "* * * * *";
 
-cron.schedule(everyMinute, updateRentMonthly, {
+cron.schedule(monthly, updateRentMonthly, {
   scheduled: true,
   timezone: "Africa/Nairobi",
 });

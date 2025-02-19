@@ -10,7 +10,7 @@ import { FormFieldType } from "@/lib/constants";
 import { SelectItem } from "../ui/select";
 import SubmitButton from "../SubmitButton";
 import { allocateProperty } from "@/lib/admin/actions/rent";
-import Loading from "./Loading";
+// import Loading from "./Loading";
 
 const ApproveForm = ({
   data,
@@ -22,7 +22,7 @@ const ApproveForm = ({
   const [vacant, setVacant] = useState<
     { propertyNo: string; propertyId: string }[]
   >([]);
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<z.infer<typeof ApproveSchema>>({
     resolver: zodResolver(ApproveSchema),
@@ -39,7 +39,7 @@ const ApproveForm = ({
       const { id: tenantId } = data;
       console.log("form" + propertyId, tenantId);
       const result = await allocateProperty({ propertyId, tenantId, status });
-      console.log("approveform" + result);
+      console.log("approved" + result);
     } catch (error) {
       console.error(error);
     } finally {
@@ -55,16 +55,14 @@ const ApproveForm = ({
   useEffect(() => {
     const fetchProperties = async () => {
       try {
-        setIsLoading(true);
+        // setIsLoading(true);
         const res = await fetch("/api/vacantproperties");
         if (!res.ok) throw new Error("sever error");
         const result = await res.json();
         setVacant(result);
-        setIsLoading(false);
+        // setIsLoading(false);
       } catch (error) {
         console.log(error);
-      } finally {
-        setIsLoading(false);
       }
     };
 
@@ -72,56 +70,50 @@ const ApproveForm = ({
   }, []);
 
   return (
-    <>
-      {isLoading ? (
-        <Loading />
-      ) : (
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)}>
-            <div className="">
-              <CustomFormField
-                fieldType={FormFieldType.SELECT}
-                control={form.control}
-                name="status"
-                label="Approve or Reject the new tenant"
-              >
-                {statuses.map((status, i) => (
-                  <SelectItem key={i + 1} value={status}>
-                    {status}
-                  </SelectItem>
-                ))}
-              </CustomFormField>
-              <CustomFormField
-                fieldType={FormFieldType.CHECKBOX}
-                control={form.control}
-                name="status"
-                label="Reject"
-              />
-            </div>
-            <CustomFormField
-              fieldType={FormFieldType.SELECT}
-              control={form.control}
-              name="propertyId"
-              label="Select a vacant property"
-              placeholder="Properties"
-            >
-              {vacant?.map((house, i) => (
-                <SelectItem key={i + 1} value={house.propertyId}>
-                  {house.propertyNo}
-                </SelectItem>
-              ))}
-            </CustomFormField>
+    // <>
+    // {isLoading ? (
+    // <Loading />
+    // ) : (
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)}>
+        <div className="">
+          <CustomFormField
+            fieldType={FormFieldType.SELECT}
+            control={form.control}
+            name="status"
+            label="Approve or Reject the new tenant"
+          >
+            {statuses.map((status, i) => (
+              <SelectItem key={i + 1} value={status}>
+                {status}
+              </SelectItem>
+            ))}
+          </CustomFormField>
+        </div>
+        <CustomFormField
+          fieldType={FormFieldType.SELECT}
+          control={form.control}
+          name="propertyId"
+          label="Select a vacant property"
+          placeholder="Properties"
+        >
+          {vacant?.map((house, i) => (
+            <SelectItem key={i + 1} value={house.propertyId}>
+              {house.propertyNo}
+            </SelectItem>
+          ))}
+        </CustomFormField>
 
-            <SubmitButton
-              isSubmitting={form.formState.isSubmitting}
-              className="bg-primary-admin w-full mt-5 font-bold text-xl text-white"
-            >
-              Approve
-            </SubmitButton>
-          </form>
-        </Form>
-      )}
-    </>
+        <SubmitButton
+          isSubmitting={form.formState.isSubmitting}
+          className="bg-primary-admin w-full mt-5 font-bold text-xl text-white"
+        >
+          Approve
+        </SubmitButton>
+      </form>
+    </Form>
+    // )}
+    // </>
   );
 };
 
