@@ -8,7 +8,7 @@ export async function createSchedule() {
     const response = await qstash.schedules.create({
       destination: `${config.env.apiProdEndpoint}/api/webhook/rent`,
       body: JSON.stringify({ message: "Monthly rent Updated" }),
-      cron: "* * * * *",
+      cron: "0 0 1 * *",
     });
 
     console.log("Schedule created:", response);
