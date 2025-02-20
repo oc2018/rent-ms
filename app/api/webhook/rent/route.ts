@@ -2,19 +2,13 @@ import { updateRentMonthly } from "@/lib/admin/actions/rent";
 import { db } from "@/database/drizzle";
 import { allocation, users } from "@/database/schema";
 import { sendEmail } from "@/lib/workflow";
-import { serve } from "@upstash/workflow/nextjs";
 import { eq } from "drizzle-orm";
 import { currencyFormatter } from "@/lib/utils";
-
-// type userStatus = "non-active" | "active";
+import { NextResponse } from "next/server";
 
 const day = new Date();
 const month = day.getMonth() + 1;
 const year = day.getFullYear();
-
-// const ONE_DAY_IN_MS = 24 * 60 * 60 * 1000;
-// const ONE_MONTH = 30 * ONE_DAY_IN_MS;
-const ONE_MONTH = 1000 * 60 * 60;
 
 const getUserStatus = async (tenantId: string) => {
   const user = await db
@@ -36,34 +30,31 @@ const getRentdue = async (tenantId: string) => {
     .where(eq(allocation.tenantId, tenantId));
 };
 
-export const { POST } = serve(async (context) => {
-  const tenants = await db.select().from(users).where(eq(users.role, "USER"));
+export async function POST() {
+  console.log("cron started.....");
+  const [tenants] = await db.select().from(users).where(eq(users.role, "USER"));
 
-  const [tenantId] = tenants.map((tenant) => tenant.id);
-  const [email] = tenants.map((tenant) => tenant.email);
-  const [fullName] = tenants.map((tenant) => tenant.email);
+  // const [tenantId] = tenants.map((tenant) => tenant.id);
+  // const [email] = tenants.map((tenant) => tenant.email);
+  // const [fullName] = tenants.map((tenant) => tenant.email);
 
-  const status = await context.run("check-if-tenant", async () => {
-    return await getUserStatus(tenantId);
-  });
+  const { id: tenantId, email, fullName } = tenants;
+
+  const status = await getUserStatus(tenantId);
 
   if (!status || status === "non-active") return;
 
-  const rentDue = await context.run("get-rent-due", async () => {
-    return await getRentdue(status.tenantId);
-  });
+  const rentDue = await getRentdue(status.tenantId);
 
   const rentAmount = rentDue.length > 0 ? rentDue[0].rentDue : 0;
 
   if (status.status === "active") {
-    await context.run("add-monthly-rent", async () => {
-      return await updateRentMonthly();
-    });
-    await context.run("", async () => {
-      await sendEmail({
-        subject: "Monthly rent notice",
-        email,
-        message: `
+    await updateRentMonthly();
+
+    await sendEmail({
+      subject: "Monthly rent notice",
+      email,
+      message: `
           <!DOCTYPE html>
             <html lang="en">
             <head>
@@ -139,11 +130,10 @@ export const { POST } = serve(async (context) => {
             </body>
             </html>
           `,
-      });
-
-      console.log("cron job run...");
     });
+
+    console.log("cron job run end...");
   }
 
-  await context.sleep("wait-for-one-month", ONE_MONTH);
-});
+  return NextResponse.json({ success: true });
+}
