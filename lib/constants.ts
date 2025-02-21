@@ -35,7 +35,7 @@ export const adminSidebarLinks = [
     route: "/admin",
   },
   {
-    icon: "/icons/admin/home.svg",
+    icon: "/icons/admin/credit-card.svg",
     text: "Rent Account",
     route: "/admin/rentaccount",
   },
@@ -45,12 +45,12 @@ export const adminSidebarLinks = [
     route: "/admin/tenants",
   },
   {
-    icon: "/icons/admin/home.svg",
+    icon: "/icons/admin/building-2.svg",
     text: "Properties",
     route: "/admin/properties",
   },
   {
-    icon: "/icons/admin/home.svg",
+    icon: "/icons/admin/circle-arrow-out-up-right.svg",
     text: "Expenses",
     route: "/admin/expenses",
   },

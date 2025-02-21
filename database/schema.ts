@@ -108,7 +108,7 @@ export const transactions = pgTable("transactions", {
 export const allocation = pgTable("allocation", {
   allocationId: uuid("allocation_id").primaryKey().defaultRandom(),
   propertyId: uuid("property_id").references(() => properties.propertyId),
-  tenantId: uuid("tenant_it").references(() => users.id),
+  tenantId: uuid("tenant_id").references(() => users.id),
   rentDue: integer("rent_due").notNull().default(0),
   depositDue: integer("deposit_due").default(0),
   rentStatus: RENT_STATUS_ENUM("rent_status").default("DUE"),

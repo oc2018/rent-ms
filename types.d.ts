@@ -177,6 +177,14 @@ interface allocation {
   createdAt: Date | null;
 }
 
+interface RentDueDataProps {
+  fullName: string;
+  email: string;
+  phoneNumber: string;
+  rentDue: number;
+  rentStatus: "CLEARED" | "DUE" | "OVERDUE" | "DEFAULTED" | null;
+}
+
 // interface PropertiesListProps {
 //   propertyId: string;
 //   createdAt: Date | null;
