@@ -13,8 +13,6 @@ export async function GET() {
       .from(properties)
       .where(eq(properties.status, "VACANT"));
 
-    console.log(data);
-
     return NextResponse.json(data);
   } catch (error) {
     console.log(error);

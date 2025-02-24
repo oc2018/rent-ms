@@ -11,6 +11,7 @@ const RecentActivity = async () => {
     .from(transactions)
     .orderBy(desc(transactions.createdAt))
     .limit(3);
+
   return (
     <div className="flex flex-col border p-6 border-slate-300 bg-white rounded-2xl  lg:w-1/3">
       <div className="flex flex-row w-full justify-between ">

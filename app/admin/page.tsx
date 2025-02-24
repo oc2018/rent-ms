@@ -16,7 +16,7 @@ const page = async () => {
       rentStatus: allocation.rentStatus,
     })
     .from(users)
-    .innerJoin(allocation, eq(users.id, allocation.tenantId));
+    .innerJoin(allocation, eq(users.id, allocation?.tenantId));
 
   return (
     <section className="w-full rounded-2xl bg-slate-100 p-7">

@@ -9,20 +9,20 @@ const ActivityCard = ({ recentData }: { recentData: Txn[] }) => {
     <div>
       {recentData.map((item) => (
         <div
-          key={item.transactionId}
+          key={item?.transactionId}
           className="flex flex-row border-b py-3 border-gray-400 gap-6"
         >
           <div className="">
-            {item.createdAt && dateFormatter(item.createdAt)}
+            {item?.createdAt && dateFormatter(item?.createdAt)}
           </div>
           <div className="flex flex-col ">
-            <h2 className="text-sm">{`${item.description}`}</h2>
+            <h2 className="text-sm">{`${item?.description}`}</h2>
             <p className="text-sm text-gray-500">{`${
-              item.expenseId ? "Expense account" : "Payment account"
+              item?.expenseId ? "Expense account" : "Payment account"
             }`}</p>
           </div>
           <div className="flex flex-end ">
-            <Link href={`/${item.expenseId ? "expenses" : "rentaccount"}`}>
+            <Link href={`/${item?.expenseId ? "expenses" : "rentaccount"}`}>
               <Image
                 src="/icons/admin/move-up-right.svg"
                 alt="arrow"

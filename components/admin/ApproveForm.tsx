@@ -37,9 +37,10 @@ const ApproveForm = ({
     try {
       const { propertyId, status } = values;
       const { id: tenantId } = data;
-      console.log("form" + propertyId, tenantId);
       const result = await allocateProperty({ propertyId, tenantId, status });
-      console.log("approved" + result);
+      if (result?.success) {
+        console.log("approved");
+      }
     } catch (error) {
       console.error(error);
     } finally {
@@ -55,12 +56,10 @@ const ApproveForm = ({
   useEffect(() => {
     const fetchProperties = async () => {
       try {
-        // setIsLoading(true);
         const res = await fetch("/api/vacantproperties");
         if (!res.ok) throw new Error("sever error");
         const result = await res.json();
         setVacant(result);
-        // setIsLoading(false);
       } catch (error) {
         console.log(error);
       }

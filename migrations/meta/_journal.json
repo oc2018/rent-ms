@@ -36,6 +36,13 @@
       "when": 1739713680354,
       "tag": "0004_right_havok",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1740378409283,
+      "tag": "0005_overjoyed_stryfe",
+      "breakpoints": true
     }
   ]
 }

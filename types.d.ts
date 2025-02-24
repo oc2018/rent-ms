@@ -135,6 +135,12 @@ interface PropertyCardProps {
   status: "VACANT" | "OCCUPIED";
 }
 
+interface PaymentProps {
+  type: "create" | "edit";
+  tenants: User[];
+  allProperties: Property[];
+}
+
 interface UserTxnListProps {
   paymentId: string;
   receiptNo: number;

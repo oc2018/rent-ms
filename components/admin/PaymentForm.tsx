@@ -2,7 +2,7 @@
 
 import { paymentSchema } from "@/lib/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Form } from "../ui/form";
@@ -16,12 +16,6 @@ import SubmitButton from "../SubmitButton";
 import { createTxn } from "@/lib/admin/actions/transactions";
 import { getPropertyNo } from "@/lib/admin/actions/properties";
 
-interface PaymentProps {
-  type: "create" | "edit";
-  tenants: User[];
-  allProperties: Property[];
-}
-
 const PaymentForm = ({ type, tenants, allProperties }: PaymentProps) => {
   const router = useRouter();
 
@@ -34,6 +28,31 @@ const PaymentForm = ({ type, tenants, allProperties }: PaymentProps) => {
       depositPaid: 0,
     },
   });
+
+  const fetchPropertyForTenant = async (tenantId: string) => {
+    try {
+      const res = await fetch("/api/fetchproperty", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ tenantId }),
+      });
+      if (!res.ok) throw new Error("Server error");
+      const result = await res.json();
+      form.setValue("propertyId", result.propertyId);
+    } catch (error) {
+      console.error("Error fetching property:", error);
+    }
+  };
+
+  const tenantId = form.watch("tenantId");
+
+  useEffect(() => {
+    if (tenantId) {
+      fetchPropertyForTenant(tenantId);
+    }
+  }, [tenantId]);
 
   const onSubmit = async (values: z.infer<typeof paymentSchema>) => {
     if (type === "create") {
@@ -71,6 +90,7 @@ const PaymentForm = ({ type, tenants, allProperties }: PaymentProps) => {
       }
     }
   };
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-6">
@@ -97,8 +117,8 @@ const PaymentForm = ({ type, tenants, allProperties }: PaymentProps) => {
               placeholder="House Number"
             >
               {allProperties.map((property, i) => (
-                <SelectItem key={i + 1} value={property?.propertyId}>
-                  <p>{property?.propertyNo}</p>
+                <SelectItem key={i} value={property?.propertyId}>
+                  <p>{property?.propertyId}</p>
                 </SelectItem>
               ))}
             </CustomFormField>

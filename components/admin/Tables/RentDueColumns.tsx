@@ -13,21 +13,21 @@ export const RentDueColumns: ColumnDef<RentDueDataProps>[] = [
     header: "Tenant Name",
     accessorKey: "fullName",
     cell: ({ row }) => (
-      <div className="text-14-medium">{row.original.fullName}</div>
+      <div className="text-14-medium">{row?.original.fullName}</div>
     ),
   },
   {
     header: "Tenant Email",
     accessorKey: "email",
     cell: ({ row }) => (
-      <div className="text-14-medium">{row.original.email}</div>
+      <div className="text-14-medium">{row?.original.email}</div>
     ),
   },
   {
     header: "Phone Number",
     accessorKey: "phoneNumber",
     cell: ({ row }) => (
-      <div className="text-14-medium">{row.original.phoneNumber}</div>
+      <div className="text-14-medium">{row?.original.phoneNumber}</div>
     ),
   },
   {
@@ -35,7 +35,7 @@ export const RentDueColumns: ColumnDef<RentDueDataProps>[] = [
     accessorKey: "rentDue",
     cell: ({ row }) => (
       <div className="text-14-medium">
-        {row.original.rentDue && currencyFormatter(row.original.rentDue)}
+        {row.original.rentDue && currencyFormatter(row?.original.rentDue)}
       </div>
     ),
   },
