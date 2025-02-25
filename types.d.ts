@@ -73,6 +73,10 @@ interface GetTenantsTotalProps {
   id: string;
 }
 
+interface GetDepositsTotalProps {
+  depositPaid: number | null;
+}
+
 interface ExpenseParams {
   description: string;
   expenseAmount: number;

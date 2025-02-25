@@ -2,11 +2,14 @@ import TransactionsList from "@/components/admin/TransactionsList";
 import { db } from "@/database/drizzle";
 import { expenses, payments, transactions } from "@/database/schema";
 import { cn } from "@/lib/utils";
-import { eq } from "drizzle-orm";
+import { asc, eq } from "drizzle-orm";
 import React from "react";
 
 const page = async () => {
-  const allTxns = await db.select().from(transactions);
+  const allTxns = await db
+    .select()
+    .from(transactions)
+    .orderBy(asc(transactions.createdAt));
 
   const getReceiptNo = async (paymentId: string): Promise<number | null> => {
     const result = await db

@@ -1,7 +1,7 @@
 "use server";
 
 import { db } from "@/database/drizzle";
-import { allocation, properties, users } from "@/database/schema";
+import { allocation, payments, properties, users } from "@/database/schema";
 import { parseStringify } from "@/lib/utils";
 import { eq, inArray } from "drizzle-orm";
 import cron from "node-cron";
@@ -152,3 +152,16 @@ cron.schedule(monthly, updateRentMonthly, {
   scheduled: true,
   timezone: "Africa/Nairobi",
 });
+
+export const getDepositTotal = async (): Promise<number> => {
+  const allDeposits: GetDepositsTotalProps[] = await db
+    .select({ depositPaid: payments.depositPaid })
+    .from(payments);
+
+  const total = allDeposits.reduce(
+    (sum, deposit) => sum + (deposit?.depositPaid ?? 0),
+    0
+  );
+
+  return total;
+};

@@ -7,7 +7,8 @@ import { allocation, users } from "@/database/schema";
 import { eq } from "drizzle-orm";
 import { getPaymentsTotal } from "@/lib/admin/actions/payments";
 import { getExpensesTotal } from "@/lib/admin/actions/expense";
-import { countTenants } from "@/lib/admin/actions/tenants";
+// import { countTenants } from "@/lib/admin/actions/tenants";
+import { getDepositTotal } from "@/lib/admin/actions/rent";
 
 const page = async () => {
   const rentDueData = await db
@@ -21,13 +22,14 @@ const page = async () => {
     .from(users)
     .innerJoin(allocation, eq(users.id, allocation?.tenantId));
 
-  const totalTenants = await countTenants();
+  // const totalTenants = await countTenants();
   const percentage = 12;
   const icon = "/icons/admin/arrow-up.svg";
   const addStyles = "bg-green-200 text-green-700";
   const paymentsTotal = await getPaymentsTotal();
   const expensesTotal = await getExpensesTotal();
   const profit = paymentsTotal - expensesTotal;
+  const depositTotal = await getDepositTotal();
 
   return (
     <section className="w-full rounded-2xl bg-slate-100 p-7">
@@ -58,9 +60,9 @@ const page = async () => {
           addStyles={addStyles}
         />
         <Feature
-          title={"Total tenants"}
+          title={"Total Deposits"}
           percentage={percentage}
-          value={totalTenants}
+          value={depositTotal}
           icon={icon}
           addStyles={addStyles}
         />

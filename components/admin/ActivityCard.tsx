@@ -4,7 +4,7 @@ import Link from "next/link";
 import React from "react";
 
 const ActivityCard = ({ recentData }: { recentData: Txn[] }) => {
-  console.log(recentData);
+  // console.log(recentData);
   return (
     <div>
       {recentData.map((item) => (

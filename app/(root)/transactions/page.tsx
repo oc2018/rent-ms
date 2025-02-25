@@ -24,6 +24,8 @@ const UserTransactions = async () => {
     .from(properties)
     .where(eq(properties.propertyId, propertyId[0]));
 
+  if (!houseNo) return new Error("You are not allocated any House.");
+
   return (
     <section className="w-full rounded-2xl p-7">
       <div className="flex flex-wrap items-center justify-between gap-2">
@@ -31,7 +33,7 @@ const UserTransactions = async () => {
         <div className="">
           <h2 className="text-14-medium">Tenant Name: {session.user.name}</h2>
           <p className="text-sm text-primary">
-            House Number: {houseNo.propertyNo}{" "}
+            House Number: {houseNo?.propertyNo}{" "}
           </p>
         </div>
       </div>

@@ -6,7 +6,7 @@ import { ColumnDef } from "@tanstack/react-table";
 export const userTxnColumns: ColumnDef<UserTxnListProps>[] = [
   {
     header: "ID",
-    cell: ({ row }) => <div className="text-14-medium">{row.index + 1}</div>,
+    cell: ({ row }) => <div className=" text-14-medium">{row.index + 1}</div>,
   },
   {
     header: "Date Paid",
