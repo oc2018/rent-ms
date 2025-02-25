@@ -20,3 +20,16 @@ export const createExpense = async (values: ExpenseParams) => {
     };
   }
 };
+
+export const getExpensesTotal = async (): Promise<number> => {
+  const allExpenses: GetExpensesTotalProps[] = await db
+    .select({ expenseAmount: expenses.expenseAmount })
+    .from(expenses);
+
+  const total = allExpenses.reduce(
+    (sum, expense) => sum + (expense?.expenseAmount ?? 0),
+    0
+  );
+
+  return total;
+};

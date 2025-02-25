@@ -61,6 +61,18 @@ interface Payment {
   createdAt: Date | null;
 }
 
+interface GetPaymentsTotalProps {
+  rentPaid: number | null;
+}
+
+interface GetExpensesTotalProps {
+  expenseAmount: number | null;
+}
+
+interface GetTenantsTotalProps {
+  id: string;
+}
+
 interface ExpenseParams {
   description: string;
   expenseAmount: number;

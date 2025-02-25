@@ -25,3 +25,16 @@ export const createPayment = async (data: PaymentParams) => {
     };
   }
 };
+
+export const getPaymentsTotal = async (): Promise<number> => {
+  const allPayments: GetPaymentsTotalProps[] = await db
+    .select({ rentPaid: payments.rentPaid })
+    .from(payments);
+
+  const total = allPayments.reduce(
+    (sum, payment) => sum + (payment?.rentPaid ?? 0),
+    0
+  );
+
+  return total;
+};

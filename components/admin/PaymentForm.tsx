@@ -118,7 +118,7 @@ const PaymentForm = ({ type, tenants, allProperties }: PaymentProps) => {
             >
               {allProperties.map((property, i) => (
                 <SelectItem key={i} value={property?.propertyId}>
-                  <p>{property?.propertyId}</p>
+                  <p>{property?.propertyNo}</p>
                 </SelectItem>
               ))}
             </CustomFormField>

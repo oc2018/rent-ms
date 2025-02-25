@@ -36,7 +36,7 @@ export const adminSidebarLinks = [
   },
   {
     icon: "/icons/admin/credit-card.svg",
-    text: "Rent Account",
+    text: "Payments",
     route: "/admin/rentaccount",
   },
   {
