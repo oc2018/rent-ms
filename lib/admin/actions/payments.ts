@@ -25,7 +25,7 @@ export const createPayment = async (data: PaymentParams) => {
     if (!rentAndDepositDue.length)
       throw new Error("Tenant rent and deposit due not found");
 
-    const { rentDue, depositDue, rentStatus } = rentAndDepositDue[0];
+    const { rentDue, depositDue } = rentAndDepositDue[0];
     if (
       rentDue === null ||
       depositDue === null ||

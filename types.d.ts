@@ -207,6 +207,20 @@ interface RentDueDataProps {
   rentStatus: "CLEARED" | "DUE" | "OVERDUE" | "DEFAULTED" | null;
 }
 
+interface sendEmailProps {
+  email: string;
+  subject: string;
+  message: string;
+  attachmentPath?: string;
+}
+
+interface LeaseDetails {
+  fullName: string;
+  propertyNo?: string;
+  moveInDate?: string;
+  rentAmount?: string;
+  depositAmount?: string;
+}
 // interface PropertiesListProps {
 //   propertyId: string;
 //   createdAt: Date | null;

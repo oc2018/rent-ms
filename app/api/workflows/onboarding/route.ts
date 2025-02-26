@@ -2,6 +2,9 @@
 // import { users } from "@/database/schema";
 import { sendEmail } from "@/lib/workflow";
 import { serve } from "@upstash/workflow/nextjs";
+import path from "path";
+import fs from "fs";
+import { generateLeasePdf } from "@/lib/generateLeasePdf";
 // import { eq } from "drizzle-orm";
 
 // type UserState = "non-active" | "active";
@@ -41,14 +44,37 @@ type InitialData = {
 export const { POST } = serve<InitialData>(async (context) => {
   const { email, fullName } = context.requestPayload;
 
-  //welcome Email
-  await context.run("new-signup", async () => {
-    await sendEmail({
-      email,
-      subject: "Welcome to Ontime Rental",
-      message: `Welcome ${fullName}`,
+  try {
+    const filePath = path.join(
+      process.cwd(),
+      "public/emails/welcome-email.html"
+    );
+    let emailTemplate = fs.readFileSync(filePath, "utf8");
+
+    emailTemplate = emailTemplate.replace("${fullName}", fullName);
+
+    const pdfPath = await generateLeasePdf({ fullName });
+
+    //welcome Email
+    await context.run("new-signup", async () => {
+      await sendEmail({
+        email,
+        subject: "Welcome to Ontime Rental",
+        message: emailTemplate,
+        attachmentPath: pdfPath,
+      });
     });
-  });
+
+    // return new Response(
+    //   JSON.stringify({ message: "Email sent successfully" }),
+    //   { status: 200 }
+    // );
+  } catch (error) {
+    console.error("Error sending email", error);
+    // return new Response(JSON.stringify({ error: "Failed to send Email" }), {
+    //   status: 500,
+    // });
+  }
 
   // await context.sleep("Wait-for-3-days", 60 * 60 * 24 * 3);
 
