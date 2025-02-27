@@ -31,9 +31,9 @@ const Home = async () => {
     .innerJoin(users, eq(users.id, id))
     .where(eq(payments.tenantId, id));
 
-  if (userTxns.length === 0) throw new Error("Error fetching payment details");
+  if (userTxns?.length === 0 || userTxns[0]?.userRole === "ADMIN")
+    redirect("/my-profile");
 
-  if (userTxns[0].userRole === "ADMIN") redirect("/my-profile");
   return (
     <section className="w-full rounded-2xl p-7">
       <div className="flex flex-wrap items-center justify-between gap-2">
