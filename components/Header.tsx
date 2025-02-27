@@ -1,55 +1,30 @@
-"use client";
-import { cn, getInitials } from "@/lib/utils";
-import Image from "next/image";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
 import React from "react";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Session } from "next-auth";
+import ProfileLink from "./ProfileLink";
+import Logo from "./Logo";
+import { Button } from "./ui/button";
+import { signOut } from "@/auth";
 
 const Header = ({ session }: { session: Session }) => {
-  const pathname = usePathname();
   return (
     <header className="my-10 text-white flex w-full justify-between gap-5">
-      <Link
-        href="/"
-        className="text-gray-300 flex items-center gap-2 border-gray-100 border-[1px] p-1 rounded-lg"
-      >
-        <Image
-          className="rounded-sm"
-          src="/icons/logo.png"
-          alt="ontime"
-          width={37}
-          height={37}
-        />
-        <div>
-          <b className="text-green-500 text-2xl leading-[0.1px]">Ontime</b>
-          <p className="leading-[0.1px]">Rental</p>
+      <Logo />
+      <div className="flex flex-row items-center gap-3">
+        <form
+          action={async () => {
+            "use server";
+
+            await signOut();
+          }}
+        >
+          <Button variant="ghost">Logout</Button>
+        </form>
+        <ProfileLink session={session} />
+        <div className="flex flex-col">
+          <div className="text-md font-bold">{session?.user?.name}</div>
+          <div className="text-xs">{session?.user?.email}</div>
         </div>
-      </Link>
-      <ul className="flex flex-row items-center gap-8">
-        <li>
-          <Link
-            href="/transactions"
-            className={cn(
-              "text-base cursor-pointer capitalize",
-              pathname === "/transactions" ? "text-light-200" : "text-light-100"
-            )}
-          >
-            transactions
-          </Link>
-        </li>
-        <li>
-          <Link href={"/my-profile"}>
-            <Avatar className="bg-green-300">
-              {/* <AvatarImage src={session?.user?.avator} /> */}
-              <AvatarFallback className="font-bold bg-primary">
-                {getInitials(session?.user?.name || "Oc")}
-              </AvatarFallback>
-            </Avatar>
-          </Link>
-        </li>
-      </ul>
+      </div>
     </header>
   );
 };

@@ -1,6 +1,5 @@
-import { auth, signOut } from "@/auth";
+import { auth } from "@/auth";
 import ProfileCard from "@/components/ProfileCard";
-import { Button } from "@/components/ui/button";
 import { db } from "@/database/drizzle";
 import { allocation, users } from "@/database/schema";
 import { getPropertyNo } from "@/lib/admin/actions/properties";
@@ -54,15 +53,6 @@ const page = async () => {
       <section className="w-full rounded-2xl p-7">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <h2 className="text-xl font-semibold">My Profile</h2>
-          <form
-            action={async () => {
-              "use server";
-
-              await signOut();
-            }}
-          >
-            <Button>Logout</Button>
-          </form>
         </div>
         <ProfileCard userDetails={allUserDetails} />
       </section>

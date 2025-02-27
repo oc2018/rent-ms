@@ -14,6 +14,7 @@ interface User {
   email: string;
   phoneNumber: string;
   idNumber: number;
+  role: "ADMIN" | "USER";
   // password: string;
   idCard: string;
   kraPin: string;
@@ -169,6 +170,7 @@ interface UserTxnListProps {
 
 interface ProfileCardProps {
   id: string;
+  role: "ADMIN" | "USER";
   fullName: string;
   email: string;
   phoneNumber: string;

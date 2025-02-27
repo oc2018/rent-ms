@@ -1,3 +1,5 @@
+"use server";
+
 import config from "@/lib/config";
 import { Client } from "@upstash/qstash";
 

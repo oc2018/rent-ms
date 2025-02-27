@@ -1,5 +1,8 @@
 import { Session } from "next-auth";
 import React from "react";
+import { Button } from "../ui/button";
+import { signOut } from "@/auth";
+import Search from "../Search";
 
 const Header = ({ session }: { session: Session }) => {
   return (
@@ -10,7 +13,22 @@ const Header = ({ session }: { session: Session }) => {
         </h2>
         <p className="text-base text-slate-500">Monitor your tenants here</p>
       </div>
-      <p>Search</p>
+      <div>
+        <div className="flex gap-3 justify-center items-center">
+          <Search />
+          <form
+            action={async () => {
+              "use server";
+
+              await signOut();
+            }}
+          >
+            <Button variant="ghost" className="text-red">
+              Logout
+            </Button>
+          </form>
+        </div>
+      </div>
     </header>
   );
 };

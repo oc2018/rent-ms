@@ -30,36 +30,45 @@ const ProfileCard = ({ userDetails }: { userDetails: ProfileCardProps[] }) => {
             <p className="text-14-medium text-primary">Edit Profile</p>
           </div>
           <div className="lg:w-full lg:pl-5 flex flex-col gap-6">
-            <div
-              className={clsx(
-                "flex justify-between p-4 border text-xl font-bold rounded-lg",
-                {
-                  "border-green-600": user.rentStatus === "CLEARED",
-                  "border-red-600": user.rentStatus === "DEFAULTED",
-                  "border-orange-600": user.rentStatus === "OVERDUE",
-                  "border-blue-600": user.rentStatus === "DUE",
-                }
-              )}
-            >
-              <h2 className="text-18 font-bold text-2xl">Tenancy Status:</h2>
-              <StatusBadge status={user.status} />
-            </div>
+            {user.role === "ADMIN" ? (
+              <div>Landlord</div>
+            ) : (
+              <div
+                className={clsx(
+                  "flex justify-between p-4 border text-xl font-bold rounded-lg",
+                  {
+                    "border-green-600": user.rentStatus === "CLEARED",
+                    "border-red-600": user.rentStatus === "DEFAULTED",
+                    "border-orange-600": user.rentStatus === "OVERDUE",
+                    "border-blue-600": user.rentStatus === "DUE",
+                  }
+                )}
+              >
+                <h2 className="text-18 font-bold text-2xl">Tenancy Status:</h2>
+                <StatusBadge status={user.status} />
+              </div>
+            )}
             <div className="flex flex-col">
               <h2 className="text-18 font-bold text-2xl">
-                Tenant Name: {user.fullName}
+                {user.role === "ADMIN" ? "Landlord" : "Tenant"} Name:{" "}
+                {user.fullName}
               </h2>
-              {/* "CLEARED" | "DUE" | "OVERDUE" | "DEFAULTED" */}
-              <p
-                className={clsx("flex py-4 text-xl font-semibold rounded-lg", {
-                  "text-green-600": user.rentStatus === "CLEARED",
-                  "text-red-600": user.rentStatus === "DEFAULTED",
-                  "text-orange-600": user.rentStatus === "OVERDUE",
-                  "text-blue-600": user.rentStatus === "DUE",
-                })}
-              >
-                Rent Status:{" "}
-                {`${currencyFormatter(user.rentDue)} is ${user.rentStatus}`}
-              </p>
+              {user.role === "USER" && (
+                <p
+                  className={clsx(
+                    "flex py-4 text-xl font-semibold rounded-lg",
+                    {
+                      "text-green-600": user.rentStatus === "CLEARED",
+                      "text-red-600": user.rentStatus === "DEFAULTED",
+                      "text-orange-600": user.rentStatus === "OVERDUE",
+                      "text-blue-600": user.rentStatus === "DUE",
+                    }
+                  )}
+                >
+                  Rent Status:{" "}
+                  {`${currencyFormatter(user.rentDue)} is ${user.rentStatus}`}
+                </p>
+              )}
               <p className="">
                 Last Activity Date:{" "}
                 {user.lastActivityDate && dateFormatter(user.lastActivityDate)}
@@ -67,9 +76,11 @@ const ProfileCard = ({ userDetails }: { userDetails: ProfileCardProps[] }) => {
             </div>
             <div className="flex flex-col md:flex-row w-full overflow-hidden">
               <div className="w-1/2">
-                <p className="text-14-medium">
-                  House Number: {user.propertyNo}
-                </p>
+                {user.role === "USER" && (
+                  <p className="text-14-medium">
+                    House Number: {user.propertyNo}
+                  </p>
+                )}
                 <p className="text-14-medium">
                   Phone Number: {user.phoneNumber}{" "}
                 </p>

@@ -62,16 +62,8 @@ export const { POST } = serve<InitialData>(async (context) => {
         message: emailTemplate,
         attachmentPath: pdfPath,
       });
-
-      // return new Response(
-      //   JSON.stringify({ message: "Email sent successfully" }),
-      //   { status: 200 }
-      // );
     } catch (error) {
       console.error("Error sending email", error);
-      // return new Response(JSON.stringify({ error: "Failed to send Email" }), {
-      //   status: 500,
-      // });
     }
   });
 
