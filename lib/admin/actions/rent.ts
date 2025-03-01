@@ -4,12 +4,12 @@ import { db } from "@/database/drizzle";
 import { allocation, payments, properties, users } from "@/database/schema";
 import { parseStringify } from "@/lib/utils";
 import { eq, inArray, sql } from "drizzle-orm";
-import cron from "node-cron";
+// import cron from "node-cron";
 
 export const allocateProperty = async (params: allocationProps) => {
   const { propertyId, tenantId, status } = params;
 
-  console.log(status);
+  // console.log(status);
 
   try {
     const approved = await db
@@ -92,7 +92,7 @@ export const allocateProperty = async (params: allocationProps) => {
 };
 
 export const updateRentMonthly = async () => {
-  console.log("running rent update cron job");
+  // console.log("running rent update cron job");
   try {
     const allocationsWithRent = await db
       .select({
@@ -140,12 +140,12 @@ export const updateRentMonthly = async () => {
 };
 
 // const monthly = "0 0 1 * *";
-const everyMinute = "* * * * *";
+// const everyMinute = "* * * * *";
 
-cron.schedule(everyMinute, updateRentMonthly, {
-  scheduled: true,
-  timezone: "Africa/Nairobi",
-});
+// cron.schedule(everyMinute, updateRentMonthly, {
+//   scheduled: true,
+//   timezone: "Africa/Nairobi",
+// });
 
 export const getDepositTotal = async (): Promise<number> => {
   const allDeposits: GetDepositsTotalProps[] = await db
