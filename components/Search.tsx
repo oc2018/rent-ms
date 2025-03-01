@@ -17,7 +17,7 @@ const Search = () => {
         className="p-2 pl-8 outline-none border-primary-admin"
       />
       <Image
-        src="/icons/admin/arrow.svg"
+        src="/icons/admin/move-up-right.svg"
         alt="send"
         width={20}
         height={20}
