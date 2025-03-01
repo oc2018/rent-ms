@@ -3,7 +3,7 @@
 import { db } from "@/database/drizzle";
 import { allocation, payments, properties, users } from "@/database/schema";
 import { parseStringify } from "@/lib/utils";
-import { eq, inArray } from "drizzle-orm";
+import { eq, inArray, sql } from "drizzle-orm";
 import cron from "node-cron";
 
 export const allocateProperty = async (params: allocationProps) => {
@@ -92,50 +92,40 @@ export const allocateProperty = async (params: allocationProps) => {
 };
 
 export const updateRentMonthly = async () => {
-  console.log("running cron");
+  console.log("running rent update cron job");
   try {
-    const allocations = await db
+    const allocationsWithRent = await db
       .select({
-        id: allocation.propertyId,
+        propertyId: allocation.propertyId,
         rentDue: allocation.rentDue,
+        rent: properties.rent,
       })
-      .from(allocation);
+      .from(allocation)
+      .innerJoin(properties, eq(allocation.propertyId, properties.propertyId));
 
-    const propertyIds = allocations
-      .map((entry) => entry.id)
-      .filter((id): id is string => id !== null);
-
-    if (propertyIds.length === 0) {
+    if (allocationsWithRent.length === 0) {
       console.warn("No valid property IDs found, skipping rent update.");
       return { success: false, error: "No valid properties to update. " };
     }
 
-    const rents = await db
-      .select({
-        propertyId: properties.propertyId,
-        rent: properties.rent,
+    const result = await db
+      .update(allocation)
+      .set({
+        rentDue: sql`${allocation.rentDue} + ${properties.rent}`,
+        rentStatus: sql`CASE WHEN (${allocation.rentDue} + ${properties.rent}) > 0 THEN "DUE" ELSE rentStatus END`,
       })
-      .from(properties)
-      .where(inArray(properties.propertyId, propertyIds));
+      .where(
+        inArray(
+          allocation.propertyId,
+          allocationsWithRent.map((a) => a.propertyId) as string[]
+        )
+      )
+      .returning();
 
-    const rentMap = new Map(
-      rents.map((entry) => [entry.propertyId, entry.rent])
+    console.log(
+      `Rent update for the month of ${new Date().getMonth() + 1} successful`,
+      result
     );
-
-    for (const entry of allocations) {
-      const monthlyRentAmount = rentMap.get(entry.id!) || 0;
-      const rentStatus = monthlyRentAmount > 0 ? "DUE" : "CLEARED";
-
-      await db
-        .update(allocation)
-        .set({
-          rentDue: entry.rentDue + monthlyRentAmount,
-          rentStatus: rentStatus,
-        })
-        .where(eq(allocation.propertyId, entry.id!));
-    }
-
-    console.log("Rent updated successfully");
     return { success: true };
   } catch (error) {
     console.log(error);
