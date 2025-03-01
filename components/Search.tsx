@@ -1,8 +1,6 @@
 import Image from "next/image";
 import React from "react";
 import { Input } from "./ui/input";
-import { createSchedule } from "@/lib/admin/actions/qstash";
-import { Button } from "./ui/button";
 
 const Search = () => {
   return (
@@ -25,7 +23,6 @@ const Search = () => {
         height={20}
         className="abolute top-1/2 right-0 -translate-y-1/2"
       />
-      <Button onClick={() => createSchedule}>Create cron</Button>
     </div>
   );
 };

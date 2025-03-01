@@ -3,6 +3,7 @@ import React from "react";
 import { Button } from "../ui/button";
 import { signOut } from "@/auth";
 import Search from "../Search";
+import { createSchedule } from "@/lib/admin/actions/qstash";
 
 const Header = ({ session }: { session: Session }) => {
   return (
@@ -19,8 +20,8 @@ const Header = ({ session }: { session: Session }) => {
           <form
             action={async () => {
               "use server";
-
-              await signOut();
+              await createSchedule();
+              // await signOut();
             }}
           >
             <Button variant="ghost" className="text-red">
