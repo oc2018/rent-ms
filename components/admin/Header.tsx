@@ -24,7 +24,7 @@ const Header = ({ session }: { session: Session }) => {
               await signOut();
             }}
           >
-            <Button onClick={() => createSchedule}>Create cron</Button>
+            <Button onClick={() => createSchedule()}>Create cron</Button>
             <Button variant="ghost" className="text-red">
               Logout
             </Button>
