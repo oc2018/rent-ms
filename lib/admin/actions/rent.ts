@@ -92,7 +92,7 @@ export const allocateProperty = async (params: allocationProps) => {
 };
 
 export const updateRentMonthly = async () => {
-  // console.log("running rent update cron job");
+  console.log("running rent update cron job");
   try {
     const allocationsWithRent = await db
       .select({
