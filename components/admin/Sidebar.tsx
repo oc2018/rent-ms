@@ -55,13 +55,15 @@ const Sidebar = ({ session }: { session: Session }) => {
         </div>
       </div>
 
-      <div className="user">
-        <Avatar className="bg-green-300">
-          {/* <AvatarImage src={session?.user?.avator} /> */}
-          <AvatarFallback className="font-bold text-white bg-primary-admin">
-            {getInitials(session?.user?.name || "Oc")}
-          </AvatarFallback>
-        </Avatar>
+      <div className="flex flex-row gap-2 border pr-4 p-2 rounded-full border-blue-200">
+        <Link href="/my-profile">
+          <Avatar className="bg-green-300">
+            {/* <AvatarImage src={session?.user?.avator} /> */}
+            <AvatarFallback className="font-bold text-white bg-primary-admin">
+              {getInitials(session?.user?.name || "Oc")}
+            </AvatarFallback>
+          </Avatar>
+        </Link>
 
         <div className="flex flex-col max-md:hidden">
           <p className="font-semibold text-dark-200">{session?.user?.name}</p>

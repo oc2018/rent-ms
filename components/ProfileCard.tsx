@@ -6,6 +6,7 @@ import React from "react";
 import StatusBadge from "./StatusBadge";
 import { currencyFormatter, dateFormatter } from "@/lib/utils";
 import clsx from "clsx";
+import Link from "next/link";
 
 const ProfileCard = ({ userDetails }: { userDetails: ProfileCardProps[] }) => {
   return (
@@ -31,7 +32,7 @@ const ProfileCard = ({ userDetails }: { userDetails: ProfileCardProps[] }) => {
           </div>
           <div className="lg:w-full lg:pl-5 flex flex-col gap-6">
             {user.role === "ADMIN" ? (
-              <div>Landlord</div>
+              <div className="text-xl font-semibold mt-5">Landlord</div>
             ) : (
               <div
                 className={clsx(
@@ -91,6 +92,16 @@ const ProfileCard = ({ userDetails }: { userDetails: ProfileCardProps[] }) => {
                 <p className="text-14-medium">KRA Pin: {user.kraPin} </p>
               </div>
             </div>
+            {user.role === "ADMIN" && (
+              <div className="mt-10">
+                <Link
+                  href="/admin"
+                  className="bg-primary-admin px-4 font-bold py-3 rounded-lg"
+                >
+                  Manange Tenants
+                </Link>
+              </div>
+            )}
           </div>
         </div>
       ))}

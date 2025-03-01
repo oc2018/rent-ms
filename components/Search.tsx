@@ -16,13 +16,13 @@ const Search = () => {
         placeholder="Search"
         className="p-2 pl-8 outline-none border-primary-admin"
       />
-      <Image
+      {/* <Image
         src="/icons/admin/move-up-right.svg"
         alt="send"
         width={20}
         height={20}
-        className="abolute top-1/2 right-0 -translate-y-1/2"
-      />
+        className="abolute top-0 right-0 -translate-y-1/2"
+      /> */}
     </div>
   );
 };
