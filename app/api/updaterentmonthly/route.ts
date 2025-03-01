@@ -11,8 +11,10 @@ export default async function handler(
 
   try {
     const result = await updateRentMonthly();
-    return { success: true, message: result };
+    return res.status(200).json(result);
   } catch (error) {
-    return { success: false, error };
+    return res
+      .status(500)
+      .json({ error: `Failed to update with error: ${error}` });
   }
 }
