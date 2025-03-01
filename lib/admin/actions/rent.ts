@@ -124,10 +124,14 @@ export const updateRentMonthly = async () => {
 
     for (const entry of allocations) {
       const monthlyRentAmount = rentMap.get(entry.id!) || 0;
+      const rentStatus = monthlyRentAmount > 0 ? "DUE" : "CLEARED";
 
       await db
         .update(allocation)
-        .set({ rentDue: entry.rentDue + monthlyRentAmount })
+        .set({
+          rentDue: entry.rentDue + monthlyRentAmount,
+          rentStatus: rentStatus,
+        })
         .where(eq(allocation.propertyId, entry.id!));
     }
 
@@ -145,10 +149,10 @@ export const updateRentMonthly = async () => {
   }
 };
 
-const monthly = "0 0 1 * *";
-// const everyMinute = "* * * * *";
+// const monthly = "0 0 1 * *";
+const everyMinute = "* * * * *";
 
-cron.schedule(monthly, updateRentMonthly, {
+cron.schedule(everyMinute, updateRentMonthly, {
   scheduled: true,
   timezone: "Africa/Nairobi",
 });
