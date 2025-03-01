@@ -25,6 +25,17 @@ const Header = ({ session }: { session: Session }) => {
             }}
           >
             <Button variant="ghost" className="text-red">
+              Schedule
+            </Button>
+          </form>
+          <form
+            action={async () => {
+              "use server";
+              // await createSchedule();
+              await signOut();
+            }}
+          >
+            <Button variant="ghost" className="text-red">
               Logout
             </Button>
           </form>
