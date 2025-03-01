@@ -8,7 +8,7 @@ const qstash = new Client({ token: config.env.upstash.qstashToken as string });
 export async function createSchedule() {
   try {
     const response = await qstash.schedules.create({
-      destination: `${config.env.apiProdEndpoint}/api/webhook/rent`,
+      destination: `${config.env.apiProdEndpoint}/api/updaterentmonthly`,
       body: JSON.stringify({ message: "Monthly rent Updated" }),
       cron: "0 0 1 * *",
     });

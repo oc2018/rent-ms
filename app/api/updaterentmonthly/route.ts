@@ -10,7 +10,9 @@ export default async function handler(
   }
 
   try {
+    console.log("cron triggered");
     const result = await updateRentMonthly();
+    console.log("cron successful");
     return res.status(200).json(result);
   } catch (error) {
     return res
